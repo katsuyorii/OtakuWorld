@@ -42,6 +42,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
+    'core',
+    'catalog',
     'users',
 
     "debug_toolbar",
@@ -150,5 +152,7 @@ INTERNAL_IPS = [
     "127.0.0.1",
     # ...
 ]
+
+# Overrate User model
 
 AUTH_USER_MODEL = 'users.User'
