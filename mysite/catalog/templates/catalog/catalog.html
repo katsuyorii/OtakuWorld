@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+    <div class="catalog-list-main-row-link">
+        <a class="catalog-list-main-row-link-item" href="{% url 'index' %}">Главная</a>
+        <p>-</p>
+        <a class="catalog-list-main-row-link-item" href="{% url 'catalog' %}">Каталог</a>
+    </div>
+    <h1 class="catalog-list-main-title">Каталог</h1>
+    <div class="catalog-list-main-categories">
+        {% for category in categories %}
+        <div class="catalog-list-main-categories-item">
+            <img class="catalog-list-main-categories-item-img" src="{{ category.icon_image.url }}" alt="Manga">
+            <a class="catalog-list-main-categories-item-text" href="product-list.html">{{ category.name }}</a>
+        </div>
+        {% endfor %}
+    </div>
+{% endblock content %}
