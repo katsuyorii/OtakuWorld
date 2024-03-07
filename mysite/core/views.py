@@ -1,6 +1,7 @@
 from django.views.generic.base import TemplateView
 from django.views.generic.list import ListView
 from catalog.models import Product
+from .models import SliderImage
 
 # Класс-представление для главной страницы
 class IndexView(ListView):
@@ -10,7 +11,8 @@ class IndexView(ListView):
 
     def get_queryset(self):
         queryset = {
-            'mangas': Product.objects.all().filter(category=1)
+            'slider_images': SliderImage.objects.all(),
+            'mangas': Product.objects.all().filter(category=1),
         }
 
         return queryset

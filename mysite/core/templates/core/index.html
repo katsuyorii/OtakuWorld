@@ -5,9 +5,9 @@
 <div class="main-banner-row">
     <div class="main-banner-row-slider">
         <div class="slider">
-            <img src="img/banners/banner-slider-1.webp" alt="Изображение 1" class="slide">
-            <img src="img/banners/banner-slider-2.webp" alt="Изображение 2" class="slide">
-            <img src="img/banners/banner-slider-3.webp" alt="Изображение 3" class="slide">
+            {% for img in products.slider_images %}
+                <img src="{{ img.icon_slider.url }}" alt="Изображение слайдера" class="slide">
+            {% endfor %}
         </div>
     </div>
     <div class="main-banner-row-new">
