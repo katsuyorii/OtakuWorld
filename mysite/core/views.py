@@ -1,8 +1,19 @@
 from django.views.generic.base import TemplateView
+from django.views.generic.list import ListView
+from catalog.models import Product
 
 # Класс-представление для главной страницы
-class IndexView(TemplateView):
+class IndexView(ListView):
+    model = Product
     template_name = 'core/index.html'
+    context_object_name = 'products'
+
+    def get_queryset(self):
+        queryset = {
+            'mangas': Product.objects.all().filter(category=1)
+        }
+
+        return queryset
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)

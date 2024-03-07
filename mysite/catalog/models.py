@@ -100,6 +100,12 @@ class Product(models.Model):
     def __str__(self):
         return self.name
     
+    # Метод преобразования цены с учетом скидки, если она есть
+    def price_discount(self):
+        if self.discount:
+            return self.price - ((self.price * self.discount) / 100)
+        
+        return self.price
 
 # Модель для характеристик продуктов
 class Property(models.Model):
