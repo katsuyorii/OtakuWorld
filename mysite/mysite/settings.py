@@ -48,6 +48,7 @@ INSTALLED_APPS = [
 
     "debug_toolbar",
     "phonenumber_field",
+    'django_cleanup',
 ]
 
 MIDDLEWARE = [
