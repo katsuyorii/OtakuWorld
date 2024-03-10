@@ -1,4 +1,5 @@
 from django.db import models
+from django.urls import reverse
 from pytils.translit import slugify
 
 # Модель для категорий товаров (Манга, канцелярия, одежда)
@@ -22,6 +23,9 @@ class Category(models.Model):
 
     def __str__(self):
         return self.name
+    
+    def get_absolute_url(self):
+        return reverse('product_list', kwargs={"category_slug": self.slug})
 
 
 # Модель для жанров (манга, манхва, маньхуа и т.д.)
@@ -108,6 +112,7 @@ class Product(models.Model):
         
         return self.price
 
+
 # Модель для характеристик продуктов
 class Property(models.Model):
     name = models.CharField(verbose_name='Наименование', max_length=128)
@@ -118,7 +123,6 @@ class Property(models.Model):
 
     def __str__(self):
         return self.name
-
 
 
 # Модель для сопоставления характеристик продукта и самого продукта

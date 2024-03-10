@@ -1,0 +1,71 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+    <div class="catalog-list-main-row-link">
+        <a class="catalog-list-main-row-link-item" href="{% url 'index' %}">Главная</a>
+        <p>-</p>
+        <a class="catalog-list-main-row-link-item" href="{% url 'catalog' %}">Каталог</a>
+        <p>-</p>
+        <a class="catalog-list-main-row-link-item" href="{% url 'product_list' category_slug=category.slug %}">{{ category.name }}</a>
+    </div>
+    <h1 class="catalog-list-main-title">{{ category.name }}</h1>
+
+    <div class="product-list-main-row">
+        <div class="product-list-main-row-filters">
+            <a href="#" class="product-list-main-row-filters-reset">Сбросить фильтры</a>
+            <p class="product-list-main-filters-title">Цена</p>
+            <div class="product-list-main-filters-price-row">
+                <input class="product-list-main-filters-price" type="text" name="" id="">
+                <input class="product-list-main-filters-price" type="text" name="" id="">
+            </div>
+            <p class="product-list-main-filters-title">Источник</p>
+            <div class="product-list-main-filters-checkbox-row">
+                <input class="product-list-main-filters-checkbox" type="checkbox" name="" id="">
+                <p class="product-list-main-filters-checkbox-text">Белая магия VS Черная магия</p>
+            </div>
+            <div class="product-list-main-filters-checkbox-row">
+                <input class="product-list-main-filters-checkbox" type="checkbox" name="" id="">
+                <p class="product-list-main-filters-checkbox-text">Белая магия VS Черная магия</p>
+            </div>
+
+            <p class="product-list-main-filters-title">Источник</p>
+            <div class="product-list-main-filters-checkbox-row">
+                <input class="product-list-main-filters-checkbox" type="checkbox" name="" id="">
+                <p class="product-list-main-filters-checkbox-text">Белая магия VS Черная магия</p>
+            </div>
+            <div class="product-list-main-filters-checkbox-row">
+                <input class="product-list-main-filters-checkbox" type="checkbox" name="" id="">
+                <p class="product-list-main-filters-checkbox-text">Белая магия VS Черная магия</p>
+            </div>
+        </div>
+        <div class="product-list-main-row-products">
+            <div class="product-list-main-row-products-grid">
+                {% for product in products %}
+                <div class="product-list-main-row-products-grid-item">
+                    <a href="index.html">
+                        <img class="product-list-main-row-products-grid-item-img" src="{{ product.icon_image.url }}" alt="Logo">
+                        <a class="product-list-main-row-products-grid-item-name" href="#">{{ product.name }}</a>
+                        {% if product.discount %}
+                            <div class="prices">
+                                <p class="product-list-main-row-products-grid-item-price-sale">{{ product.price_discount }} ₽</p>
+                                <p class="product-list-main-row-products-grid-item-price-through">{{ product.price }} ₽</p>
+                            </div>
+                        {% else %}
+                            <p class="product-list-main-row-products-grid-item-price">{{ product.price }} ₽</p>
+                        {% endif %}
+                        <a class="product-list-main-row-products-grid-item-btn" href="#">В корзину</a>
+                    </a>
+                </div>
+                {% endfor %}
+            </div>
+            <div class="product-list-main-pagination">
+                <a href="#">«</a>
+                <a class="active" href="#">1</a>
+                <a href="#">2</a>
+                <a href="#">3</a>
+                <a href="#">»</a>
+            </div>
+        </div>
+    </div>
+{% endblock content %}

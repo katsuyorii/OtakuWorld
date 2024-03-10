@@ -1262,6 +1262,21 @@ body {
     padding-bottom: 22px;
 }
 
+.product-list-main-row-products-grid-item-price-through {
+	font-size: 18px;
+    font-weight: 700;
+    color: var(--header-text-color);
+	text-decoration: line-through;
+    padding-bottom: 22px;
+}
+
+.product-list-main-row-products-grid-item-price-sale {
+	font-size: 18px;
+    font-weight: 700;
+    color: var(--text-link-color);
+    padding-bottom: 22px;
+}
+
 .product-list-main-row-products-grid-item-btn {
     text-decoration: none;
     color: var(--button-text-color);
