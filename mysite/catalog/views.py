@@ -19,6 +19,7 @@ class ProductListView(ListView):
     model = Product
     template_name = 'catalog/product-list.html'
     context_object_name = 'products'
+    paginate_by = 15
 
     def get_queryset(self):
         queryset = Product.objects.filter(category__slug=self.kwargs['category_slug'])
