@@ -7,9 +7,9 @@
         <p>-</p>
         <a class="catalog-list-main-row-link-item" href="{% url 'catalog' %}">Каталог</a>
         <p>-</p>
-        <a class="catalog-list-main-row-link-item" href="{{}}">{{ product.category.name }}</a>
+        <a class="catalog-list-main-row-link-item" href="{{ product.category.get_absolute_url }}">{{ product.category.name }}</a>
         <p>-</p>
-        <a class="catalog-list-main-row-link-item" href="#">{{ product.name }}</a>
+        <a class="catalog-list-main-row-link-item" href="{{ product.get_absolute_url }}">{{ product.name }}</a>
     </div>
     <h2 class="product-detail-title">{{ product.name }}</h2>
     <div class="product-detail-stars">
@@ -25,19 +25,19 @@
         </div>
         <div class="product-detail-stars-forever">
             <a href="#">
-                <img src="img/icons/icon-love.png" alt="Forever">
+                <img src="{% static 'img/icons/icon-love.png' %}" alt="Forever">
                 <a href="#" class="product-detail-stars-forever-link">В избранное</a>
             </a>
         </div>
     </div>
     <div class="product-detail-main">
         <div class="product-detail-main-left">
-            <img class="product-detail-main-left-img" src="img/full_posters/one.jpeg" alt="Poster">
+            <img class="product-detail-main-left-img" src="{{ product.icon_image }}" alt="Poster">
             <div class="product-detail-main-left-text">
-                <h2 class="product-detail-main-left-text-engtitle">Made in Abyss. Vol.6</h2>
-                <p class="product-detail-main-left-text-p">Категория: <a class="product-detail-main-left-text-link" href="#">Манга</a></p>
+                <h2 class="product-detail-main-left-text-engtitle">{{ product.name_eng }}</h2>
+                <p class="product-detail-main-left-text-p">Категория: <a class="product-detail-main-left-text-link" href="{{ product.category.get_absolute_url }}">{{ product.category.name }}</a></p>
                 <p class="product-detail-main-left-text-p">Вес: 365 гр.</p>
-                <p class="product-detail-main-left-text-p">Источник: <a class="product-detail-main-left-text-link" href="#">Made in Abyss</a></p>
+                <p class="product-detail-main-left-text-p">Источник: <a class="product-detail-main-left-text-link" href="#">{{ product.source.name }}</a></p>
                 <p class="product-detail-main-left-text-p">Автор: Акихито Цукуси</p>
                 <p class="product-detail-main-left-text-p">Издатель: <a class="product-detail-main-left-text-link" href="#">Reanimedia</a></p>
                 <p class="product-detail-main-left-text-p">Жанры: <a class="product-detail-main-left-text-link" href="#">Приключения и Фэнтези</a></p>
@@ -50,11 +50,17 @@
             </div>
         </div>
         <div class="product-detail-main-right">
-            <p class="product-detail-main-right-orig">Оригинальная цена</p>
-            <p class="product-detail-main-right-orig-price">530 ₽</p>
-            <p class="product-detail-main-right-orig">Специальная цена</p>
-            <p class="product-detail-main-right-spec-price">475 ₽</p>
+            {% if product.discount %}
+                <p class="product-detail-main-right-orig">Оригинальная цена</p>
+                <p class="product-detail-main-right-orig-price">530 ₽</p>
+                <p class="product-detail-main-right-orig">Специальная цена</p>
+                <p class="product-detail-main-right-spec-price">475 ₽</p>
+            {% else %}
+                <p class="product-detail-main-right-orig">Оригинальная цена</p>
+                <p class="product-detail-main-right-spec-price">475 ₽</p>
+            {% endif %}
             <a href="#" class="product-detail-main-right-btn">В корзину</a>
+            {% if product.category.slug == 'odezhda' %}
             <div class="product-detail-clothers-size">
                 <div class="product-detail-clothers-size-top">
                     <p class="product-detail-clothers-size-pole">Пол</p>
@@ -77,6 +83,7 @@
                 </div>
             </div>
             <a onclick="openPopup()" class="product-detail-sizes-table">Таблица размеров</a>
+            {% endif %}
         </div>
     </div>
     <div class="product-detail-desc">
@@ -147,4 +154,10 @@
             </div> 
         </div>
     </div>
+
+    <div class="popup-sizes">
+        <a onclick="closePopup()" class="popup-sizes-close">Закрыть</a>
+        <img src="{% static 'img/popup-sizes.png' %}" alt="">
+    </div>
+    <script src="{% static 'js/popup-sizes.js' %}"></script>
 {% endblock content %}
