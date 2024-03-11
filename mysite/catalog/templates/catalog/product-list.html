@@ -45,7 +45,7 @@
                 <div class="product-list-main-row-products-grid-item">
                     <a href="index.html">
                         <img class="product-list-main-row-products-grid-item-img" src="{{ product.icon_image.url }}" alt="Logo">
-                        <a class="product-list-main-row-products-grid-item-name" href="#">{{ product.name }}</a>
+                        <a class="product-list-main-row-products-grid-item-name" href="{{ product.get_absolute_url }}">{{ product.name }}</a>
                         {% if product.discount %}
                             <div class="prices">
                                 <p class="product-list-main-row-products-grid-item-price-sale">{{ product.price_discount }} ₽</p>
@@ -59,6 +59,7 @@
                 </div>
                 {% endfor %}
             </div>
+            
             {% if is_paginated %}
                 <div class="product-list-main-pagination">
                     {% if page_obj.has_previous %}

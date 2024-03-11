@@ -70,7 +70,7 @@
         {% endfor %}
     </div>
     <div class="show-all-row">
-        <a class="main-hits-show-all" href="#">Посмотреть все товары</a>
+        <a class="main-hits-show-all" href="{% url 'product_list' category_slug='manga' %}">Посмотреть все товары</a>
     </div>
 </div>
 {% endblock content %}

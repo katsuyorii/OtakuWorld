@@ -1,0 +1,150 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+    <div class="catalog-list-main-row-link">
+        <a class="catalog-list-main-row-link-item" href="{% url 'index' %}">Главная</a>
+        <p>-</p>
+        <a class="catalog-list-main-row-link-item" href="{% url 'catalog' %}">Каталог</a>
+        <p>-</p>
+        <a class="catalog-list-main-row-link-item" href="#">Манга</a>
+        <p>-</p>
+        <a class="catalog-list-main-row-link-item" href="#">{{ product.name }}</a>
+    </div>
+    <h2 class="product-detail-title">{{ product.name }}</h2>
+    <div class="product-detail-stars">
+        <div class="product-detail-stars-row">
+            <div class="rating-result">
+                <span class="active"></span>	
+                <span class="active"></span>    
+                <span class="active"></span>  
+                <span></span>    
+                <span></span>
+            </div>
+            <a class="product-detail-stars-row-link" href="#">0 отзывов</a>
+        </div>
+        <div class="product-detail-stars-forever">
+            <a href="#">
+                <img src="img/icons/icon-love.png" alt="Forever">
+                <a href="#" class="product-detail-stars-forever-link">В избранное</a>
+            </a>
+        </div>
+    </div>
+    <div class="product-detail-main">
+        <div class="product-detail-main-left">
+            <img class="product-detail-main-left-img" src="img/full_posters/one.jpeg" alt="Poster">
+            <div class="product-detail-main-left-text">
+                <h2 class="product-detail-main-left-text-engtitle">Made in Abyss. Vol.6</h2>
+                <p class="product-detail-main-left-text-p">Категория: <a class="product-detail-main-left-text-link" href="#">Манга</a></p>
+                <p class="product-detail-main-left-text-p">Вес: 365 гр.</p>
+                <p class="product-detail-main-left-text-p">Источник: <a class="product-detail-main-left-text-link" href="#">Made in Abyss</a></p>
+                <p class="product-detail-main-left-text-p">Автор: Акихито Цукуси</p>
+                <p class="product-detail-main-left-text-p">Издатель: <a class="product-detail-main-left-text-link" href="#">Reanimedia</a></p>
+                <p class="product-detail-main-left-text-p">Жанры: <a class="product-detail-main-left-text-link" href="#">Приключения и Фэнтези</a></p>
+                <p class="product-detail-main-left-text-p">Год выпуска: 2020</p>
+                <p class="product-detail-main-left-text-p">Томов в серии: 7+</p>
+                <p class="product-detail-main-left-text-p">Количество страниц: 160</p>
+                <p class="product-detail-main-left-text-p">ISBN: 978-5-91996-472-8</p>
+                <p class="product-detail-main-left-text-p">Обложка: Мягкий переплет и Суперобложка</p>
+                <p class="product-detail-main-left-text-p">Язык: Русский</p>
+            </div>
+        </div>
+        <div class="product-detail-main-right">
+            <p class="product-detail-main-right-orig">Оригинальная цена</p>
+            <p class="product-detail-main-right-orig-price">530 ₽</p>
+            <p class="product-detail-main-right-orig">Специальная цена</p>
+            <p class="product-detail-main-right-spec-price">475 ₽</p>
+            <a href="#" class="product-detail-main-right-btn">В корзину</a>
+            <div class="product-detail-clothers-size">
+                <div class="product-detail-clothers-size-top">
+                    <p class="product-detail-clothers-size-pole">Пол</p>
+                    <select class="product-detail-clothers-size-pole-select" name="" id="">
+                        <option selected disabled hidden>-</option>
+                        <option value="">М</option>
+                        <option value="">Ж</option>
+                    </select>
+                </div>
+                <div class="product-detail-clothers-size-bottom">
+                    <p class="product-detail-clothers-size-pole">Размер</p>
+                    <select class="product-detail-clothers-size-size-select" name="" id="">
+                        <option selected disabled hidden>-</option>
+                        <option value="">S</option>
+                        <option value="">M</option>
+                        <option value="">L</option>
+                        <option value="">XL</option>
+                        <option value="">XXL</option>
+                    </select>
+                </div>
+            </div>
+            <a onclick="openPopup()" class="product-detail-sizes-table">Таблица размеров</a>
+        </div>
+    </div>
+    <div class="product-detail-desc">
+        <h2 class="product-detail-desc-h">Описание</h2>
+        <p class="product-detail-desc-text">Впереди третья схватка, и на этот раз Коёми Арараги надо сразиться не с вампиром, а с человеком, что всех опасней: Палач — глава новой церкви, теневой командир подпольной тайной службы, которая только тем и занята, что искореняет «странности» в любом виде. Выловить и убить Киссшот Ацеролаорион Хартандерблейд — божественное предназначение Палача, и для битвы с Коёми он даже использует то, что отнял у самой Киссшот…</p>
+    </div>
+    <div class="product-detail-reviews">
+        <h2 class="product-detail-reviews-h">Отзывы</h2>
+        <form method="POST">
+            <textarea class="product-detail-reviews-textarea" placeholder="Оставьте комментарий..." name="comment" id="comment"></textarea>
+        </form>
+        <div class="product-detail-reviews-row">
+            <div class="product-detail-reviews-stars">
+                <p>Ваша оценка:</p>
+                <div class="rating-area">
+                    <input type="radio" id="star-5" name="rating" value="5">
+                    <label for="star-5" title="Оценка «5»"></label>	
+                    <input type="radio" id="star-4" name="rating" value="4">
+                    <label for="star-4" title="Оценка «4»"></label>    
+                    <input type="radio" id="star-3" name="rating" value="3">
+                    <label for="star-3" title="Оценка «3»"></label>  
+                    <input type="radio" id="star-2" name="rating" value="2">
+                    <label for="star-2" title="Оценка «2»"></label>    
+                    <input type="radio" id="star-1" name="rating" value="1">
+                    <label for="star-1" title="Оценка «1»"></label>
+                </div>
+            </div>
+            <a class="product-detail-reviews-link" href="#">Отправить</a>
+        </div>
+
+        <div class="product-detail-reviews-line"></div>
+        <div class="product-detail-reviews-item">
+            <span class="circle-img-product">
+                <img class="profile-row-links-img" src="img/profile_images/FrxRRpqvUO0.jpg" alt="Profile Logo">
+            </span>
+            <div class="product-detail-reviews-item-column">
+                <div class="product-detail-reviews-name">
+                    <h1 class="product-detail-reviews-username">katsuyorii</h1>
+                    <p class="product-detail-reviews-date">21 марта 2023 г.</p>
+                </div> 
+                <div class="rating-result">
+                    <span class="active"></span>	
+                    <span class="active"></span>    
+                    <span class="active"></span>  
+                    <span></span>    
+                    <span></span>
+                </div>
+                <p class="product-detail-reviews-item-desc">Шедевриально</p>
+            </div> 
+        </div>
+        <div class="product-detail-reviews-item">
+            <span class="circle-img-product">
+                <img class="profile-row-links-img" src="img/profile_images/FrxRRpqvUO0.jpg" alt="Profile Logo">
+            </span>
+            <div class="product-detail-reviews-item-column">
+                <div class="product-detail-reviews-name">
+                    <h1 class="product-detail-reviews-username">katsuyorii</h1>
+                    <p class="product-detail-reviews-date">21 марта 2023 г.</p>
+                </div> 
+                <div class="rating-result">
+                    <span class="active"></span>	
+                    <span class="active"></span>    
+                    <span class="active"></span>  
+                    <span></span>    
+                    <span></span>
+                </div>
+                <p class="product-detail-reviews-item-desc">Шедевриально</p>
+            </div> 
+        </div>
+    </div>
+{% endblock content %}

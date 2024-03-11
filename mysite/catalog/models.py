@@ -105,6 +105,9 @@ class Product(models.Model):
     def __str__(self):
         return self.name
     
+    def get_absolute_url(self):
+        return reverse('product_detail', kwargs={"category_slug": self.category.slug, "product_slug": self.slug})
+    
     # Метод преобразования цены с учетом скидки, если она есть
     def price_discount(self):
         if self.discount:

@@ -1,4 +1,5 @@
 from django.views.generic.list import ListView
+from django.views.generic.detail import DetailView
 from .models import Category, Product
 from django.shortcuts import get_object_or_404
 
@@ -15,6 +16,7 @@ class CatalogView(ListView):
         return context
 
 
+# Класс-представление для каталога товаров
 class ProductListView(ListView):
     model = Product
     template_name = 'catalog/product-list.html'
@@ -30,5 +32,23 @@ class ProductListView(ListView):
         context = super().get_context_data(**kwargs)
         context['title'] = 'Каталог товаров'
         context['category'] = get_object_or_404(Category, slug=self.kwargs['category_slug'])
+
+        return context
+    
+
+# Класс-представление для отдельного товара
+class ProductDetailView(ListView):
+    model = Product
+    template_name = 'catalog/product-detail.html'
+    context_object_name = 'product'
+
+    def get_queryset(self):
+        queryset = get_object_or_404(Product, slug=self.kwargs['product_slug'])
+
+        return queryset
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = 'Каталог товаров'
 
         return context
