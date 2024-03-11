@@ -20,10 +20,10 @@
     <div class="main-hits-row">
         {% for hit in products.hits %}
             <div class="main-hits-row-card">
-                <a href="#">
+                <a href="{{ hit.get_absolute_url }}">
                     <img class="main-hits-row-card-img" src="{{ hit.icon_image.url }}" alt="Logo Card">
                     <br>
-                    <a class="main-hits-row-card-name" href="#">{{ hit.name }}</a>
+                    <a class="main-hits-row-card-name" href="{{ hit.get_absolute_url }}">{{ hit.name }}</a>
                 </a>
                 {% if hit.discount %}
                     <div class="prices">
@@ -43,30 +43,22 @@
     <a href="#" class="main-hits-title">Манга</a>
     <div class="main-hits-row">
         {% for manga in products.mangas %}
-            {% if manga.discount %}
-                <div class="main-hits-row-card">
-                    <a href="#">
-                        <img class="main-hits-row-card-img" src="{{ manga.icon_image.url }}" alt="Logo Card">
-                        <br>
-                        <a class="main-hits-row-card-name" href="#">{{ manga.name }}</a>
-                    </a>
-                <div class="prices">
-                    <a class="main-hits-row-card-price-sale">{{ manga.price_discount }} ₽</a>
-                    <p class="main-hits-row-card-price-through"> {{ manga.price }} ₽</p>    
-                </div>
+            <div class="main-hits-row-card">
+                <a href="{{ manga.get_absolute_url }}">
+                    <img class="main-hits-row-card-img" src="{{ manga.icon_image.url }}" alt="Logo Card">
+                    <br>
+                    <a class="main-hits-row-card-name" href="{{ manga.get_absolute_url }}">{{ manga.name }}</a>
+                </a>
+                {% if manga.discount %}
+                    <div class="prices">
+                        <a class="main-hits-row-card-price-sale">{{ manga.price_discount }} ₽</a>
+                        <p class="main-hits-row-card-price-through"> {{ manga.price }} ₽</p>    
+                    </div>
+                {% else %}
+                    <p class="main-hits-row-card-price">{{ manga.price }} ₽</p>
+                {% endif %}
                 <a class="main-hits-row-card-btn" href="#">В корзину</a>
             </div>
-            {% else %}
-                <div class="main-hits-row-card">
-                    <a href="#">
-                        <img class="main-hits-row-card-img" src="{{ manga.icon_image.url }}" alt="Logo Card">
-                        <br>
-                        <a class="main-hits-row-card-name" href="#">{{ manga.name }}</a>
-                    </a>
-                    <p class="main-hits-row-card-price">{{ manga.price }} ₽</p>
-                    <a class="main-hits-row-card-btn" href="#">В корзину</a>
-                </div>
-            {% endif %}
         {% endfor %}
     </div>
     <div class="show-all-row">

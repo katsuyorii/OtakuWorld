@@ -13,8 +13,8 @@ class IndexView(ListView):
         queryset = {
             'slider_images': SliderImage.objects.all(),
             'news_product_image': NewsProductImage.objects.first(),
-            'hits': Product.objects.all().order_by('-sales')[:5],
-            'mangas': Product.objects.all().filter(category__slug='manga'),
+            'hits': Product.objects.all().order_by('-sales')[:5].select_related('category'),
+            'mangas': Product.objects.all().filter(category__slug='manga').select_related('category'),
         }
 
         return queryset
