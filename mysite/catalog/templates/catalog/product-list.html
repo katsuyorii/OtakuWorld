@@ -7,7 +7,7 @@
         <p>-</p>
         <a class="catalog-list-main-row-link-item" href="{% url 'catalog' %}">Каталог</a>
         <p>-</p>
-        <a class="catalog-list-main-row-link-item" href="{% url 'product_list' category_slug=category.slug %}">{{ category.name }}</a>
+        <a class="catalog-list-main-row-link-item" href="{{ category.get_absolute_url }}">{{ category.name }}</a>
     </div>
     <h1 class="catalog-list-main-title">{{ category.name }}</h1>
 

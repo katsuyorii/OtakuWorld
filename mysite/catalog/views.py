@@ -24,7 +24,7 @@ class ProductListView(ListView):
     paginate_by = 15
 
     def get_queryset(self):
-        queryset = Product.objects.filter(category__slug=self.kwargs['category_slug'])
+        queryset = Product.objects.filter(category__slug=self.kwargs['category_slug']).select_related('category')
 
         return queryset
 

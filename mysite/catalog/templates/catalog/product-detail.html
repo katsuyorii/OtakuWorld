@@ -7,7 +7,7 @@
         <p>-</p>
         <a class="catalog-list-main-row-link-item" href="{% url 'catalog' %}">Каталог</a>
         <p>-</p>
-        <a class="catalog-list-main-row-link-item" href="#">Манга</a>
+        <a class="catalog-list-main-row-link-item" href="{{}}">{{ product.category.name }}</a>
         <p>-</p>
         <a class="catalog-list-main-row-link-item" href="#">{{ product.name }}</a>
     </div>
