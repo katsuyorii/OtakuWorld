@@ -1,6 +1,7 @@
 from django.db import models
 from django.urls import reverse
 from pytils.translit import slugify
+from users.models import User
 
 # Модель для категорий товаров (Манга, канцелярия, одежда)
 class Category(models.Model):
@@ -86,6 +87,7 @@ class Product(models.Model):
     amount = models.PositiveIntegerField(verbose_name='Количество в наличии', default=0)
     is_active = models.BooleanField(verbose_name='Активный продукт', default=False)
     sales = models.PositiveIntegerField(verbose_name='Количество продаж', default=0, editable=False)
+    rating = models.SmallIntegerField(verbose_name='Рейтинг', default=0, editable=False)
 
     class Meta:
         verbose_name = 'Базовый продукт'
@@ -142,3 +144,19 @@ class ProductProperty(models.Model):
 
     def __str__(self):
         return f'{self.product.name} | {self.property.name}'
+    
+
+# Модель для комментария
+class Comment(models.Model):
+    product = models.ForeignKey(verbose_name='Продукт', to=Product, on_delete=models.CASCADE)
+    user = models.ForeignKey(verbose_name='Пользователь', to=User, on_delete=models.CASCADE)
+    review_text = models.TextField(verbose_name='Текст комментария')
+    create_date = models.DateField(verbose_name='Дата создания комментария', auto_now_add=True)
+    grade = models.SmallIntegerField(verbose_name='Оценка пользователя')
+
+    class Meta:
+        verbose_name = 'Комментарий'
+        verbose_name_plural = 'Комментарии'
+
+    def __str__(self):
+        return f'{self.product.name} | {self.user.username}'

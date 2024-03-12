@@ -115,44 +115,24 @@
         </form>
 
         <div class="product-detail-reviews-line"></div>
-        <div class="product-detail-reviews-item">
-            <span class="circle-img-product">
-                <img class="profile-row-links-img" src="img/profile_images/FrxRRpqvUO0.jpg" alt="Profile Logo">
-            </span>
-            <div class="product-detail-reviews-item-column">
-                <div class="product-detail-reviews-name">
-                    <h1 class="product-detail-reviews-username">katsuyorii</h1>
-                    <p class="product-detail-reviews-date">21 марта 2023 г.</p>
+        {% for comment in product.comments %}
+            <div class="product-detail-reviews-item">
+                <span class="circle-img-product">
+                    <img class="profile-row-links-img" src="{{ comment.user.image.url }}" alt="Profile Logo">
+                </span>
+                <div class="product-detail-reviews-item-column">
+                    <div class="product-detail-reviews-name">
+                        <h1 class="product-detail-reviews-username">{{ comment.user.username }}</h1>
+                        <p class="product-detail-reviews-date">{{ comment.create_date }}</p>
+                    </div> 
+                    <div class="rating-result">
+                        <span class="active"></span>
+                        <span></span>
+                    </div>
+                    <p class="product-detail-reviews-item-desc">{{ comment.review_text }}</p>
                 </div> 
-                <div class="rating-result">
-                    <span class="active"></span>	
-                    <span class="active"></span>    
-                    <span class="active"></span>  
-                    <span></span>    
-                    <span></span>
-                </div>
-                <p class="product-detail-reviews-item-desc">Шедевриально</p>
-            </div> 
-        </div>
-        <div class="product-detail-reviews-item">
-            <span class="circle-img-product">
-                <img class="profile-row-links-img" src="img/profile_images/FrxRRpqvUO0.jpg" alt="Profile Logo">
-            </span>
-            <div class="product-detail-reviews-item-column">
-                <div class="product-detail-reviews-name">
-                    <h1 class="product-detail-reviews-username">katsuyorii</h1>
-                    <p class="product-detail-reviews-date">21 марта 2023 г.</p>
-                </div> 
-                <div class="rating-result">
-                    <span class="active"></span>	
-                    <span class="active"></span>    
-                    <span class="active"></span>  
-                    <span></span>    
-                    <span></span>
-                </div>
-                <p class="product-detail-reviews-item-desc">Шедевриально</p>
-            </div> 
-        </div>
+            </div>
+        {% endfor %}
     </div>
 
     <div class="popup-sizes">
