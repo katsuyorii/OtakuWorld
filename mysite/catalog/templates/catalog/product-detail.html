@@ -7,11 +7,11 @@
         <p>-</p>
         <a class="catalog-list-main-row-link-item" href="{% url 'catalog' %}">Каталог</a>
         <p>-</p>
-        <a class="catalog-list-main-row-link-item" href="{{ product.category.get_absolute_url }}">{{ product.category.name }}</a>
+        <a class="catalog-list-main-row-link-item" href="{{ product.base.category.get_absolute_url }}">{{ product.base.category.name }}</a>
         <p>-</p>
-        <a class="catalog-list-main-row-link-item" href="{{ product.get_absolute_url }}">{{ product.name }}</a>
+        <a class="catalog-list-main-row-link-item" href="{{ product.base.get_absolute_url }}">{{ product.base.name }}</a>
     </div>
-    <h2 class="product-detail-title">{{ product.name }}</h2>
+    <h2 class="product-detail-title">{{ product.base.name }}</h2>
     <div class="product-detail-stars">
         <div class="product-detail-stars-row">
             <div class="rating-result">
@@ -32,12 +32,12 @@
     </div>
     <div class="product-detail-main">
         <div class="product-detail-main-left">
-            <img class="product-detail-main-left-img" src="{{ product.icon_image }}" alt="Poster">
+            <img class="product-detail-main-left-img" src="{{ product.base.icon_image.url }}" alt="Poster">
             <div class="product-detail-main-left-text">
-                <h2 class="product-detail-main-left-text-engtitle">{{ product.name_eng }}</h2>
-                <p class="product-detail-main-left-text-p">Категория: <a class="product-detail-main-left-text-link" href="{{ product.category.get_absolute_url }}">{{ product.category.name }}</a></p>
-                <p class="product-detail-main-left-text-p">Вес: 365 гр.</p>
-                <p class="product-detail-main-left-text-p">Источник: <a class="product-detail-main-left-text-link" href="#">{{ product.source.name }}</a></p>
+                <h2 class="product-detail-main-left-text-engtitle">{{ product.base.name_eng }}</h2>
+                <p class="product-detail-main-left-text-p">Категория: <a class="product-detail-main-left-text-link" href="{{ product.base.category.get_absolute_url }}">{{ product.base.category.name }}</a></p>
+                <p class="product-detail-main-left-text-p">Вес: 350 гр.</p>
+                <p class="product-detail-main-left-text-p">Источник: <a class="product-detail-main-left-text-link" href="#">{{ product.base.source.name }}</a></p>
                 <p class="product-detail-main-left-text-p">Автор: Акихито Цукуси</p>
                 <p class="product-detail-main-left-text-p">Издатель: <a class="product-detail-main-left-text-link" href="#">Reanimedia</a></p>
                 <p class="product-detail-main-left-text-p">Жанры: <a class="product-detail-main-left-text-link" href="#">Приключения и Фэнтези</a></p>
@@ -50,17 +50,17 @@
             </div>
         </div>
         <div class="product-detail-main-right">
-            {% if product.discount %}
+            {% if product.base.discount %}
                 <p class="product-detail-main-right-orig">Оригинальная цена</p>
-                <p class="product-detail-main-right-orig-price">530 ₽</p>
+                <p class="product-detail-main-right-orig-price">{{ product.base.price }} ₽</p>
                 <p class="product-detail-main-right-orig">Специальная цена</p>
-                <p class="product-detail-main-right-spec-price">475 ₽</p>
+                <p class="product-detail-main-right-spec-price">{{product.base.price_discount }} ₽</p>
             {% else %}
                 <p class="product-detail-main-right-orig">Оригинальная цена</p>
-                <p class="product-detail-main-right-spec-price">475 ₽</p>
+                <p class="product-detail-main-right-spec-price">{{ product.base.price }} ₽</p>
             {% endif %}
             <a href="#" class="product-detail-main-right-btn">В корзину</a>
-            {% if product.category.slug == 'odezhda' %}
+            {% if product.base.category.slug == 'odezhda' %}
             <div class="product-detail-clothers-size">
                 <div class="product-detail-clothers-size-top">
                     <p class="product-detail-clothers-size-pole">Пол</p>
@@ -88,31 +88,31 @@
     </div>
     <div class="product-detail-desc">
         <h2 class="product-detail-desc-h">Описание</h2>
-        <p class="product-detail-desc-text">Впереди третья схватка, и на этот раз Коёми Арараги надо сразиться не с вампиром, а с человеком, что всех опасней: Палач — глава новой церкви, теневой командир подпольной тайной службы, которая только тем и занята, что искореняет «странности» в любом виде. Выловить и убить Киссшот Ацеролаорион Хартандерблейд — божественное предназначение Палача, и для битвы с Коёми он даже использует то, что отнял у самой Киссшот…</p>
+        <p class="product-detail-desc-text">{{ product.base.description }}</p>
     </div>
     <div class="product-detail-reviews">
         <h2 class="product-detail-reviews-h">Отзывы</h2>
         <form method="POST">
             <textarea class="product-detail-reviews-textarea" placeholder="Оставьте комментарий..." name="comment" id="comment"></textarea>
-        </form>
-        <div class="product-detail-reviews-row">
-            <div class="product-detail-reviews-stars">
-                <p>Ваша оценка:</p>
-                <div class="rating-area">
-                    <input type="radio" id="star-5" name="rating" value="5">
-                    <label for="star-5" title="Оценка «5»"></label>	
-                    <input type="radio" id="star-4" name="rating" value="4">
-                    <label for="star-4" title="Оценка «4»"></label>    
-                    <input type="radio" id="star-3" name="rating" value="3">
-                    <label for="star-3" title="Оценка «3»"></label>  
-                    <input type="radio" id="star-2" name="rating" value="2">
-                    <label for="star-2" title="Оценка «2»"></label>    
-                    <input type="radio" id="star-1" name="rating" value="1">
-                    <label for="star-1" title="Оценка «1»"></label>
+            <div class="product-detail-reviews-row">
+                <div class="product-detail-reviews-stars">
+                    <p>Ваша оценка:</p>
+                    <div class="rating-area">
+                        <input type="radio" id="star-5" name="rating" value="5">
+                        <label for="star-5" title="Оценка «5»"></label>	
+                        <input type="radio" id="star-4" name="rating" value="4">
+                        <label for="star-4" title="Оценка «4»"></label>    
+                        <input type="radio" id="star-3" name="rating" value="3">
+                        <label for="star-3" title="Оценка «3»"></label>  
+                        <input type="radio" id="star-2" name="rating" value="2">
+                        <label for="star-2" title="Оценка «2»"></label>    
+                        <input type="radio" id="star-1" name="rating" value="1">
+                        <label for="star-1" title="Оценка «1»"></label>
+                    </div>
                 </div>
+                <button type="submit" class="product-detail-reviews-link">Отправить</a>
             </div>
-            <a class="product-detail-reviews-link" href="#">Отправить</a>
-        </div>
+        </form>
 
         <div class="product-detail-reviews-line"></div>
         <div class="product-detail-reviews-item">

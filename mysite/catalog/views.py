@@ -1,6 +1,5 @@
 from django.views.generic.list import ListView
-from django.views.generic.detail import DetailView
-from .models import Category, Product
+from .models import Category, Product, ProductProperty
 from django.shortcuts import get_object_or_404
 
 # Класс-представления каталога категорий
@@ -43,7 +42,10 @@ class ProductDetailView(ListView):
     context_object_name = 'product'
 
     def get_queryset(self):
-        queryset = get_object_or_404(Product, slug=self.kwargs['product_slug'])
+        queryset = {
+            'base': get_object_or_404(Product.objects.select_related('category', 'source'), slug=self.kwargs['product_slug']),
+            'characters': ProductProperty.objects.filter(product=get_object_or_404(Product, slug=self.kwargs['product_slug'])),
+        }
 
         return queryset
 

@@ -585,11 +585,15 @@ body {
 }
 
 .product-detail-reviews-link {
+	font-family: 'Roboto', sans-serif;;
+	font-size: 17px;
 	color: white;
 	background-color: var(--text-link-color);
+	border: 1px solid var(--text-link-color);
 	border-radius: 5px;
 	text-decoration: none;
 	padding: 13px 25px;
+	cursor: pointer;
 }
 
 .product-detail-reviews-link:hover {
