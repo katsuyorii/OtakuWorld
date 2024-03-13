@@ -34,19 +34,12 @@
         <div class="product-detail-main-left">
             <img class="product-detail-main-left-img" src="{{ product.base.icon_image.url }}" alt="Poster">
             <div class="product-detail-main-left-text">
-                <h2 class="product-detail-main-left-text-engtitle">{{ product.base.name_eng }}</h2>
-                <p class="product-detail-main-left-text-p">Категория: <a class="product-detail-main-left-text-link" href="{{ product.base.category.get_absolute_url }}">{{ product.base.category.name }}</a></p>
-                <p class="product-detail-main-left-text-p">Вес: 350 гр.</p>
-                <p class="product-detail-main-left-text-p">Источник: <a class="product-detail-main-left-text-link" href="#">{{ product.base.source.name }}</a></p>
-                <p class="product-detail-main-left-text-p">Автор: Акихито Цукуси</p>
-                <p class="product-detail-main-left-text-p">Издатель: <a class="product-detail-main-left-text-link" href="#">Reanimedia</a></p>
-                <p class="product-detail-main-left-text-p">Жанры: <a class="product-detail-main-left-text-link" href="#">Приключения и Фэнтези</a></p>
-                <p class="product-detail-main-left-text-p">Год выпуска: 2020</p>
-                <p class="product-detail-main-left-text-p">Томов в серии: 7+</p>
-                <p class="product-detail-main-left-text-p">Количество страниц: 160</p>
-                <p class="product-detail-main-left-text-p">ISBN: 978-5-91996-472-8</p>
-                <p class="product-detail-main-left-text-p">Обложка: Мягкий переплет и Суперобложка</p>
-                <p class="product-detail-main-left-text-p">Язык: Русский</p>
+                    <h2 class="product-detail-main-left-text-engtitle">{{ product.base.name_eng }}</h2>
+                    <p class="product-detail-main-left-text-p">Категория: <a class="product-detail-main-left-text-link" href="{{ product.base.category.get_absolute_url }}">{{ product.base.category.name }}</a></p>
+                    <p class="product-detail-main-left-text-p">Источник: <a class="product-detail-main-left-text-link" href="#">{{ product.base.source.name }}</a></p>
+                    {% for property in product.characters %}
+                        <p class="product-detail-main-left-text-p">{{ property.property.name }}: {% if property.value_string %} {{ property.value_string }} {% elif property.value_integer %} {{ property.value_integer }} {% else %} {% for genre in property.value_genres.all %} <a class="product-detail-main-left-text-link" href="#">{{ genre.name }}</a> {% if not forloop.last %},{% endif %} {% endfor %} {% endif %}</p>
+                    {% endfor %}
             </div>
         </div>
         <div class="product-detail-main-right">
