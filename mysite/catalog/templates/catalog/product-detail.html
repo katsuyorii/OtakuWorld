@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% load static %}
+{% load range_values %}
 
 {% block content %}
     <div class="catalog-list-main-row-link">
@@ -119,8 +120,12 @@
                         <p class="product-detail-reviews-date">{{ comment.create_date }}</p>
                     </div> 
                     <div class="rating-result">
-                        <span class="active"></span>
-                        <span></span>
+                        {% for _ in comment.grade|range_values_star %}
+                            <span class="active"></span>
+                        {% endfor %}
+                        {% for _ in comment.grade|range_values_no_star %}
+                            <span></span>
+                        {% endfor %}
                     </div>
                     <p class="product-detail-reviews-item-desc">{{ comment.review_text }}</p>
                 </div> 

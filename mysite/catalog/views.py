@@ -45,7 +45,7 @@ class ProductDetailView(ListView):
         queryset = {
             'base': get_object_or_404(Product.objects.select_related('category', 'source'), slug=self.kwargs['product_slug']),
             'characters': ProductProperty.objects.filter(product__slug=self.kwargs['product_slug']).select_related('product', 'property'),
-            'comments': Comment.objects.filter(product__slug=self.kwargs['product_slug']),
+            'comments': Comment.objects.filter(product__slug=self.kwargs['product_slug']).select_related('user'),
         }
 
         return queryset
