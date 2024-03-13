@@ -55,6 +55,10 @@ table {
 	--button-text-color: #F3F3F3;
 }
 
+html {
+	scroll-behavior: smooth;
+}
+
 
 html, body {
     height: 100%

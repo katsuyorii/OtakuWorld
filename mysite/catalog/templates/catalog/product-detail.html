@@ -16,13 +16,14 @@
     <div class="product-detail-stars">
         <div class="product-detail-stars-row">
             <div class="rating-result">
-                <span class="active"></span>	
-                <span class="active"></span>    
-                <span class="active"></span>  
-                <span></span>    
-                <span></span>
+                {% for _ in product.base.rating|range_values_star %}
+                    <span class="active"></span>
+                {% endfor %}
+                {% for _ in product.base.rating|range_values_no_star %}
+                    <span></span>
+                {% endfor %}
             </div>
-            <a class="product-detail-stars-row-link" href="#">0 отзывов</a>
+            <a class="product-detail-stars-row-link" href="#review">0 отзывов</a>
         </div>
         <div class="product-detail-stars-forever">
             <a href="#">
@@ -85,7 +86,7 @@
         <p class="product-detail-desc-text">{{ product.base.description }}</p>
     </div>
     <div class="product-detail-reviews">
-        <h2 class="product-detail-reviews-h">Отзывы</h2>
+        <h2 id="review" class="product-detail-reviews-h">Отзывы</h2>
         <form method="POST">
             <textarea class="product-detail-reviews-textarea" placeholder="Оставьте комментарий..." name="comment" id="comment"></textarea>
             <div class="product-detail-reviews-row">
