@@ -4,6 +4,8 @@ from .models import Category, Product, ProductProperty, Comment
 from django.views.generic.edit import FormMixin
 from django.shortcuts import get_object_or_404
 from .forms import AddNewCommentForm
+from django.contrib import messages
+
 
 # Класс-представления каталога категорий
 class CatalogView(ListView):
@@ -80,4 +82,9 @@ class ProductDetailView(ListView, FormMixin):
             return self.form_valid(form)
         else:
             return self.form_invalid(form)
+        
+    def form_valid(self, form):
+        messages.info(self.request, 'Ваш комментарий успешно добавлен!')
+        return super().form_valid(form)
+    
     
