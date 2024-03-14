@@ -89,21 +89,22 @@
     <div class="product-detail-reviews">
         <h2 id="review" class="product-detail-reviews-h">Отзывы</h2>
         <form method="POST">
-            <textarea class="product-detail-reviews-textarea" placeholder="Оставьте комментарий..." name="comment" id="comment"></textarea>
+            {% csrf_token %}
+            <textarea class="product-detail-reviews-textarea" placeholder="Оставьте комментарий..." name="review_text" id="id_review_text"></textarea>
             <div class="product-detail-reviews-row">
                 <div class="product-detail-reviews-stars">
                     <p>Ваша оценка:</p>
                     <div class="rating-area">
-                        <input type="radio" id="star-5" name="rating" value="5">
-                        <label for="star-5" title="Оценка «5»"></label>	
-                        <input type="radio" id="star-4" name="rating" value="4">
-                        <label for="star-4" title="Оценка «4»"></label>    
-                        <input type="radio" id="star-3" name="rating" value="3">
-                        <label for="star-3" title="Оценка «3»"></label>  
-                        <input type="radio" id="star-2" name="rating" value="2">
-                        <label for="star-2" title="Оценка «2»"></label>    
-                        <input type="radio" id="star-1" name="rating" value="1">
-                        <label for="star-1" title="Оценка «1»"></label>
+                        <input type="radio" id="id_grade_five" name="grade" value="5">
+                        <label for="id_grade_five" title="Оценка «5»"></label>	
+                        <input type="radio" id="id_grade_four" name="grade" value="4">
+                        <label for="id_grade_four" title="Оценка «4»"></label>    
+                        <input type="radio" id="id_grade_three" name="grade" value="3">
+                        <label for="id_grade_three" title="Оценка «3»"></label>  
+                        <input type="radio" id="id_grade_two" name="grade" value="2">
+                        <label for="id_grade_two" title="Оценка «2»"></label>    
+                        <input type="radio" id="id_grade_one" name="grade" value="1">
+                        <label for="id_grade_one" title="Оценка «1»"></label>
                     </div>
                 </div>
                 <button type="submit" class="product-detail-reviews-link">Отправить</a>

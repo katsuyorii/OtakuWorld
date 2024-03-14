@@ -1,6 +1,9 @@
+from django.urls import reverse_lazy
 from django.views.generic.list import ListView
 from .models import Category, Product, ProductProperty, Comment
+from django.views.generic.edit import FormMixin
 from django.shortcuts import get_object_or_404
+from .forms import AddNewCommentForm
 
 # Класс-представления каталога категорий
 class CatalogView(ListView):
@@ -36,8 +39,9 @@ class ProductListView(ListView):
     
 
 # Класс-представление для отдельного товара
-class ProductDetailView(ListView):
+class ProductDetailView(ListView, FormMixin):
     model = Product
+    form_class = AddNewCommentForm
     template_name = 'catalog/product-detail.html'
     context_object_name = 'product'
 
@@ -56,3 +60,24 @@ class ProductDetailView(ListView):
         context['count_reviews'] = Comment.objects.filter(product__slug = self.kwargs['product_slug']).count()
 
         return context
+    
+    def get_success_url(self):
+        return reverse_lazy('product_detail', kwargs = {'category_slug': self.kwargs['category_slug'], 'product_slug': self.kwargs['product_slug']})
+    
+    # Метод добавления комментариев
+    def post(self, request, *args, **kwargs):
+        # -------- НЕ ТРОГАТЬ -----------------
+        self.object_list = self.get_queryset()
+        # -------------------------------------
+
+        form = self.get_form()
+        if form.is_valid():
+            new_comment = form.save(commit=False)
+            new_comment.product = get_object_or_404(Product.objects.select_related('category', 'source'), slug=self.kwargs['product_slug'])
+            new_comment.user = self.request.user
+            new_comment.save()
+
+            return self.form_valid(form)
+        else:
+            return self.form_invalid(form)
+    

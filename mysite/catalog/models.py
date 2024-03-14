@@ -151,7 +151,7 @@ class Comment(models.Model):
     product = models.ForeignKey(verbose_name='Продукт', to=Product, on_delete=models.CASCADE)
     user = models.ForeignKey(verbose_name='Пользователь', to=User, on_delete=models.CASCADE)
     review_text = models.TextField(verbose_name='Текст комментария')
-    create_date = models.DateField(verbose_name='Дата создания комментария', auto_now_add=True)
+    create_date = models.DateTimeField(verbose_name='Дата создания комментария', auto_now_add=True)
     grade = models.SmallIntegerField(verbose_name='Оценка пользователя')
 
     class Meta:
