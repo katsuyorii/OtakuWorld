@@ -605,6 +605,13 @@ body {
 	background-color: var(--text-link-color-dark);
 }
 
+.product-detail-reviews-error {
+	margin-top: 10px;
+	color: var(--text-link-color);
+	font-weight: 500;
+	font-size: 17px;
+}
+
 .rating-area {
 	overflow: hidden;
 }

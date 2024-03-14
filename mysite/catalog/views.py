@@ -87,4 +87,9 @@ class ProductDetailView(ListView, FormMixin):
         messages.info(self.request, 'Ваш комментарий успешно добавлен!')
         return super().form_valid(form)
     
+    def form_invalid(self, form):
+        messages.error(self.request, 'Ошибка при заполнении формы!')
+        return super().form_invalid(form)
+    
+    
     

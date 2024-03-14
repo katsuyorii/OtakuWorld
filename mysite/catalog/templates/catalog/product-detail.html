@@ -91,6 +91,9 @@
         <form method="POST">
             {% csrf_token %}
             <textarea class="product-detail-reviews-textarea" placeholder="Оставьте комментарий..." name="review_text" id="id_review_text"></textarea>
+            {% for error in form.review_text.errors %}
+                <p class="product-detail-reviews-error">* {{ error }} </p>
+            {% endfor %}
             <div class="product-detail-reviews-row">
                 <div class="product-detail-reviews-stars">
                     <p>Ваша оценка:</p>
@@ -109,6 +112,9 @@
                 </div>
                 <button type="submit" class="product-detail-reviews-link">Отправить</a>
             </div>
+            {% for error in form.grade.errors %}
+                <p class="product-detail-reviews-error">*{{ error }} </p>
+            {% endfor %}
         </form>
 
         <div class="product-detail-reviews-line"></div>
