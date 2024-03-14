@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 {% load static %}
 {% load range_values %}
+{% load review_declination %}
 
 {% block content %}
     <div class="catalog-list-main-row-link">
@@ -23,7 +24,7 @@
                     <span></span>
                 {% endfor %}
             </div>
-            <a class="product-detail-stars-row-link" href="#review">0 отзывов</a>
+            <a class="product-detail-stars-row-link" href="#review">{{ count_reviews }} {{ count_reviews|review_declination }}</a>
         </div>
         <div class="product-detail-stars-forever">
             <a href="#">

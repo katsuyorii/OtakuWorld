@@ -45,7 +45,7 @@ class ProductDetailView(ListView):
         queryset = {
             'base': get_object_or_404(Product.objects.select_related('category', 'source'), slug=self.kwargs['product_slug']),
             'characters': ProductProperty.objects.filter(product__slug=self.kwargs['product_slug']).select_related('product', 'property'),
-            'comments': Comment.objects.filter(product__slug=self.kwargs['product_slug']).select_related('user'),
+            'comments': Comment.objects.filter(product__slug=self.kwargs['product_slug']).select_related('user').order_by('-create_date'),
         }
 
         return queryset
@@ -53,5 +53,6 @@ class ProductDetailView(ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['title'] = 'Каталог товаров'
+        context['count_reviews'] = Comment.objects.filter(product__slug = self.kwargs['product_slug']).count()
 
         return context
