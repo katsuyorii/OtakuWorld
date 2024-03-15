@@ -6,6 +6,8 @@ from django.shortcuts import get_object_or_404
 from .forms import AddNewCommentForm
 from django.contrib import messages
 from django.contrib.auth.models import AnonymousUser
+from .services import rating_calculate
+from django.db import transaction
 
 
 # Класс-представления каталога категорий
@@ -74,6 +76,7 @@ class ProductDetailView(ListView, FormMixin):
         return reverse_lazy('product_detail', kwargs = {'category_slug': self.kwargs['category_slug'], 'product_slug': self.kwargs['product_slug']})
     
     # Метод добавления комментариев
+    @transaction.atomic
     def post(self, request, *args, **kwargs):
         # -------- НЕ ТРОГАТЬ -----------------
         self.object_list = self.get_queryset()
@@ -85,6 +88,7 @@ class ProductDetailView(ListView, FormMixin):
             new_comment.product = get_object_or_404(Product.objects.select_related('category', 'source'), slug=self.kwargs['product_slug'])
             new_comment.user = self.request.user
             new_comment.save()
+            rating_calculate(new_comment.product)
 
             return self.form_valid(form)
         else:
