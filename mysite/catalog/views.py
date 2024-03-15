@@ -5,6 +5,7 @@ from django.views.generic.edit import FormMixin
 from django.shortcuts import get_object_or_404
 from .forms import AddNewCommentForm
 from django.contrib import messages
+from django.contrib.auth.models import AnonymousUser
 
 
 # Класс-представления каталога категорий
@@ -60,6 +61,12 @@ class ProductDetailView(ListView, FormMixin):
         context = super().get_context_data(**kwargs)
         context['title'] = 'Каталог товаров'
         context['count_reviews'] = Comment.objects.filter(product__slug = self.kwargs['product_slug']).count()
+
+        # Проверка, если пользователь не авторизирован, то у него нет доступа к форме создания комментария
+        if isinstance(self.request.user, AnonymousUser):
+            context['user_comm'] = True
+        else:
+            context['user_comm'] = Comment.objects.filter(user=self.request.user, product__slug=self.kwargs['product_slug']).exists()
 
         return context
     
