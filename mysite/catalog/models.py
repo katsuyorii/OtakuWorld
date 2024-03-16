@@ -2,6 +2,7 @@ from django.db import models
 from django.urls import reverse
 from pytils.translit import slugify
 from users.models import User
+from django.db.models import Avg
 
 # Модель для категорий товаров (Манга, канцелярия, одежда)
 class Category(models.Model):
@@ -160,3 +161,10 @@ class Comment(models.Model):
 
     def __str__(self):
         return f'{self.product.name} | {self.user.username}'
+    
+    def rating_calculate(self, product):
+        average_grade = Comment.objects.filter(product=product).aggregate(avg_grade=Avg('grade'))['avg_grade']
+
+        select_product = Product.objects.get(slug=product.slug)
+        select_product.rating = average_grade
+        select_product.save()

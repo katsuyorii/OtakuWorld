@@ -6,7 +6,6 @@ from django.shortcuts import get_object_or_404
 from .forms import AddNewCommentForm
 from django.contrib import messages
 from django.contrib.auth.models import AnonymousUser
-from .services import rating_calculate
 from django.db import transaction
 
 
@@ -88,7 +87,7 @@ class ProductDetailView(ListView, FormMixin):
             new_comment.product = get_object_or_404(Product.objects.select_related('category', 'source'), slug=self.kwargs['product_slug'])
             new_comment.user = self.request.user
             new_comment.save()
-            rating_calculate(new_comment.product)
+            new_comment.rating_calculate(new_comment.product)
 
             return self.form_valid(form)
         else:
