@@ -111,6 +111,6 @@ class CommentDeleteView(View):
         comm.delete()
         comm.product.update_rating()
 
-        return HttpResponseRedirect(reverse_lazy('index'))
+        return HttpResponseRedirect(reverse_lazy('product_detail', kwargs = {'category_slug': comm.product.category.slug, 'product_slug': comm.product.slug}))
     
     
