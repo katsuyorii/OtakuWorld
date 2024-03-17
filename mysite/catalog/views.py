@@ -87,7 +87,7 @@ class ProductDetailView(ListView, FormMixin):
             new_comment.product = get_object_or_404(Product.objects.select_related('category', 'source'), slug=self.kwargs['product_slug'])
             new_comment.user = self.request.user
             new_comment.save()
-            new_comment.rating_calculate(new_comment.product)
+            new_comment.product.update_rating()
 
             return self.form_valid(form)
         else:

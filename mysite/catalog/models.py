@@ -117,6 +117,13 @@ class Product(models.Model):
             return self.price - ((self.price * self.discount) / 100)
         
         return self.price
+    
+    # Метод рассчета рейтинга
+    def update_rating(self):
+        average_grade = Comment.objects.filter(product__slug=self.slug).aggregate(avg_grade=Avg('grade'))['avg_grade']
+
+        self.rating = average_grade
+        self.save()
 
 
 # Модель для характеристик продуктов
@@ -161,10 +168,3 @@ class Comment(models.Model):
 
     def __str__(self):
         return f'{self.product.name} | {self.user.username}'
-    
-    def rating_calculate(self, product):
-        average_grade = Comment.objects.filter(product=product).aggregate(avg_grade=Avg('grade'))['avg_grade']
-
-        select_product = Product.objects.get(slug=product.slug)
-        select_product.rating = average_grade
-        select_product.save()
