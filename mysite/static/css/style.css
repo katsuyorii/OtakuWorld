@@ -444,6 +444,20 @@ body {
 	gap: 15px;
 }
 
+.product-detail-edit {
+	text-decoration: none;
+	font-size: 13px;
+	font-weight: 500;
+	color: green;
+}
+
+.product-detail-delete {
+	text-decoration: none;
+	font-size: 13px;
+	font-weight: 500;
+	color: var(--text-link-color);
+}
+
 .rating-result {
 	margin-top: 5px;
 }
