@@ -1,4 +1,4 @@
-from django.db import models
+from django.db import models, transaction
 from django.urls import reverse
 from pytils.translit import slugify
 from users.models import User
@@ -121,8 +121,12 @@ class Product(models.Model):
     # Метод рассчета рейтинга
     def update_rating(self):
         average_grade = Comment.objects.filter(product__slug=self.slug).aggregate(avg_grade=Avg('grade'))['avg_grade']
-
-        self.rating = average_grade
+        
+        if average_grade is None:
+            self.rating = 0
+        else:
+            self.rating = average_grade
+            
         self.save()
 
 
@@ -168,3 +172,8 @@ class Comment(models.Model):
 
     def __str__(self):
         return f'{self.product.name} | {self.user.username}'
+    
+    @transaction.atomic()
+    def delete(self, *args, **kwargs):
+        super().delete(*args, **kwargs)
+        self.product.update_rating()
