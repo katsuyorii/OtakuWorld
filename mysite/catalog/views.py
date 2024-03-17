@@ -1,5 +1,7 @@
+from django.http import HttpResponseRedirect
 from django.urls import reverse_lazy
 from django.views.generic.list import ListView
+from django.views.generic.base import View
 from .models import Category, Product, ProductProperty, Comment
 from django.views.generic.edit import FormMixin
 from django.shortcuts import get_object_or_404
@@ -100,6 +102,15 @@ class ProductDetailView(ListView, FormMixin):
     def form_invalid(self, form):
         messages.error(self.request, 'Ошибка при заполнении формы!')
         return super().form_invalid(form)
-    
+
+
+class CommentDeleteView(View):
+    @transaction.atomic()
+    def get(self, request, pk):
+        comm = get_object_or_404(Comment,pk=pk)
+        comm.delete()
+        comm.product.update_rating()
+
+        return HttpResponseRedirect(reverse_lazy('index'))
     
     

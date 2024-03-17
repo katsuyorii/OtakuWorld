@@ -172,8 +172,3 @@ class Comment(models.Model):
 
     def __str__(self):
         return f'{self.product.name} | {self.user.username}'
-    
-    @transaction.atomic()
-    def delete(self, *args, **kwargs):
-        super().delete(*args, **kwargs)
-        self.product.update_rating()
