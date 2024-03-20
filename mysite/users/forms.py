@@ -2,6 +2,7 @@ from django import forms
 from django.contrib.auth import authenticate
 from .models import User
 from phonenumber_field.formfields import PhoneNumberField
+from phonenumber_field.phonenumber import to_python
 
 # Класс-форма для авторизации пользователя
 class LoginUserForm(forms.Form):
@@ -77,10 +78,25 @@ class EditInfoUserForm(forms.ModelForm):
         'class': 'login-email-input', 
     }))
 
-    phone_number = PhoneNumberField(widget=forms.TextInput(attrs={
+    phone_number = PhoneNumberField(required=False, widget=forms.TextInput(attrs={
         'class': 'login-email-input', 
     }))
+
+    image = forms.ImageField(required=False, widget=forms.FileInput())
 
     class Meta:
         model = User
         fields = ['username', 'email', 'phone_number', 'image']
+
+    def clean(self):
+        cleaned_data = super().clean()
+        email = cleaned_data.get('email')
+        phone_number = cleaned_data.get('phone_number')
+        
+        users = User.objects.filter(email=email)
+        phone = to_python(phone_number)
+
+        if not phone:
+            raise forms.ValidationError("Некорректный формат номера телефона")
+
+        return cleaned_data

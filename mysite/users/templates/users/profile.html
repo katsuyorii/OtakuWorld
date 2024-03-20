@@ -23,6 +23,11 @@
 
             <p class="profile-row-item-name">Имя: {{ user.username }}</p>
             <p class="profile-row-item-email">E-mail: {{ user.email }}</p>
+            {% if user.phone_number %}
+                <p class="profile-row-item-phone">Номер телефона: {{ user.phone_number }}</p>
+            {% else %}
+                <p class="profile-row-item-phone">Номер телефона: Не указан</p>
+            {% endif %}
         </div>
     </div>
 {% endblock content %}

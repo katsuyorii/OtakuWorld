@@ -3,11 +3,11 @@
 
 {% block content %}
 <div class="catalog-list-main-row-link">
-    <a class="catalog-list-main-row-link-item" href="#">Главная</a>
+    <a class="catalog-list-main-row-link-item" href="{% url 'index' %}">Главная</a>
     <p>-</p>
-    <a class="catalog-list-main-row-link-item" href="#">Ваш профиль</a>
+    <a class="catalog-list-main-row-link-item" href="{% url 'profile' %}">Ваш профиль</a>
     <p>-</p>
-    <a class="catalog-list-main-row-link-item" href="#">Редактировать</a>
+    <a class="catalog-list-main-row-link-item" href="{% url 'profile_edit' %}">Редактировать</a>
 </div>
 
 <div class="profile-row">
@@ -15,6 +15,14 @@
     {% include "profile-menu.html" %}
     
     <div class="profile-row-info">
+        {% if form.non_field_errors %}
+            {% for error in form.non_field_errors%}
+                <p class="product-detail-reviews-error">*{{ error }}</p>
+            {% endfor %}
+        {% endif %}
+
+        <br>
+        
         <form enctype="multipart/form-data" method="POST">
             {% csrf_token %}
             <div class="form-group-ed">

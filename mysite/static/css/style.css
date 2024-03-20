@@ -1134,12 +1134,17 @@ body {
 
 .profile-row-item-name {
     padding-top: 20px;
-    padding-bottom: 10px;
+    padding-bottom: 13px;
     color: var(--header-text-color);
 }
 
 .profile-row-item-email {
+	padding-bottom: 13px;
     color: var(--header-text-color);
+}
+
+.profile-row-item-phone {
+	color: var(--header-text-color);
 }
 
 .circle-img {
