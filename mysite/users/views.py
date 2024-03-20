@@ -1,9 +1,9 @@
 from django.contrib.auth import authenticate, login
 from django.urls import reverse_lazy
 from django.views import View
-from django.views.generic import FormView
+from django.views.generic import FormView, UpdateView
 from django.views.generic.base import TemplateView
-from .forms import LoginUserForm, RegistrationUserForm
+from .forms import LoginUserForm, RegistrationUserForm, EditInfoUserForm
 from django.contrib import messages
 from .models import User
 from django.contrib.auth import logout
@@ -91,3 +91,21 @@ class LogoutUserView(View):
         logout(request)
         messages.success(request, 'Вы успешно вышли из системы!')
         return redirect(reverse_lazy('index'))
+    
+class EditInfoUserView(UpdateView):
+    model = User
+    form_class = EditInfoUserForm
+    template_name = 'users/profile-edit.html'
+
+    def get_success_url(self):
+        return reverse_lazy('profile')
+
+    # Переопределние метода, чтобы не указывать pk или slug в url
+    def get_object(self, queryset=None):
+        return self.request.user
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = 'Редактирование профиля'
+
+        return context

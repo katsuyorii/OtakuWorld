@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+<div class="catalog-list-main-row-link">
+    <a class="catalog-list-main-row-link-item" href="#">Главная</a>
+    <p>-</p>
+    <a class="catalog-list-main-row-link-item" href="#">Ваш профиль</a>
+    <p>-</p>
+    <a class="catalog-list-main-row-link-item" href="#">Редактировать</a>
+</div>
+
+<div class="profile-row">
+
+    {% include "profile-menu.html" %}
+    
+    <div class="profile-row-info">
+        <form enctype="multipart/form-data" method="POST">
+            {% csrf_token %}
+            <div class="form-group-ed">
+                <label class="login-email-lbl" for="{{ form.username.id_for_label }}">*Имя</label>
+                {{ form.username }}
+            </div>
+
+            <div class="form-group">
+                <label class="login-email-lbl" for="{{ form.phone_number.id_for_label }}">Телефон</label>
+                {{ form.phone_number }}
+            </div>
+        
+            <div class="form-group">
+                <label class="login-email-lbl" for="{{ form.email.id_for_label }}">*Адрес эл.почты</label>
+                {{ form.email }}
+            </div>
+
+            <div class="form-group">
+                <label class="login-email-lbl" for="{{ form.image.id_for_label }}">Фото</label>
+                {{ form.image }}
+            </div>
+        
+            <button class="login-btn-prof" type="submit">Сохранить</button>
+        </form>
+    </div>
+</div>
+{% endblock content %}

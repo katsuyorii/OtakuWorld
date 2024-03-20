@@ -1,6 +1,7 @@
 from django import forms
 from django.contrib.auth import authenticate
 from .models import User
+from phonenumber_field.formfields import PhoneNumberField
 
 # Класс-форма для авторизации пользователя
 class LoginUserForm(forms.Form):
@@ -64,3 +65,22 @@ class RegistrationUserForm(forms.Form):
                 raise forms.ValidationError('Введенные пароли отличаются!')
 
         return cleaned_data
+    
+
+# Класс-форма для изменения данных пользователя
+class EditInfoUserForm(forms.ModelForm):
+    username = forms.CharField(widget=forms.TextInput(attrs={
+        'class': 'login-email-input', 
+    }))
+
+    email = forms.CharField(widget=forms.EmailInput(attrs={
+        'class': 'login-email-input', 
+    }))
+
+    phone_number = PhoneNumberField(widget=forms.TextInput(attrs={
+        'class': 'login-email-input', 
+    }))
+
+    class Meta:
+        model = User
+        fields = ['username', 'email', 'phone_number', 'image']
