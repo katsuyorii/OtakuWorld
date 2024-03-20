@@ -3,11 +3,12 @@ from django.urls import reverse_lazy
 from django.views import View
 from django.views.generic import FormView, UpdateView
 from django.views.generic.base import TemplateView
-from .forms import LoginUserForm, RegistrationUserForm, EditInfoUserForm
+from .forms import LoginUserForm, RegistrationUserForm, EditInfoUserForm, ChangePasswordUserForm
 from django.contrib import messages
 from .models import User
 from django.contrib.auth import logout
 from django.shortcuts import redirect
+from django.contrib.auth.views import PasswordChangeView
 
 
 # Класс-представление авторизации пользователя
@@ -85,13 +86,16 @@ class ProfileUserView(TemplateView):
 
             return context
     
-# # Класс-представление выхода из системы
+    
+# Класс-представление выхода из системы
 class LogoutUserView(View):
     def get(self, request, *args, **kwargs):
         logout(request)
         messages.success(request, 'Вы успешно вышли из системы!')
         return redirect(reverse_lazy('index'))
     
+
+# Класс-представление редактирования информации профиля
 class EditInfoUserView(UpdateView):
     model = User
     form_class = EditInfoUserForm
@@ -115,5 +119,28 @@ class EditInfoUserView(UpdateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['title'] = 'Редактирование профиля'
+
+        return context
+    
+
+# Класс-представление редактирования информации профиля
+class ChangePasswordUserView(PasswordChangeView):
+    template_name = 'users/change-password.html'
+    form_class = ChangePasswordUserForm
+
+    def get_success_url(self):
+        return reverse_lazy('profile')
+    
+    def form_valid(self, form):
+        messages.success(self.request, 'Вы успешно сменили пароль!')
+        return super().form_valid(form)
+    
+    def form_invalid(self, form):
+        messages.error(self.request, 'Ошибка заполнения формы!')
+        return super().form_invalid(form)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = 'Смена пароля'
 
         return context

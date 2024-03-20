@@ -3,6 +3,7 @@ from django.contrib.auth import authenticate
 from .models import User
 from phonenumber_field.formfields import PhoneNumberField
 from phonenumber_field.phonenumber import to_python
+from django.contrib.auth.forms import PasswordChangeForm
 
 # Класс-форма для авторизации пользователя
 class LoginUserForm(forms.Form):
@@ -100,3 +101,18 @@ class EditInfoUserForm(forms.ModelForm):
             raise forms.ValidationError("Некорректный формат номера телефона")
 
         return cleaned_data
+    
+
+# Класс-форма для изменения пароля пользователя
+class ChangePasswordUserForm(PasswordChangeForm):
+    old_password = forms.CharField(widget=forms.PasswordInput(attrs={
+        'class': 'login-email-input',
+    }))
+
+    new_password1 = forms.CharField(widget=forms.PasswordInput(attrs={
+        'class': 'login-email-input',
+    }))
+
+    new_password2 = forms.CharField(widget=forms.PasswordInput(attrs={
+        'class': 'login-email-input',
+    }))
