@@ -9,6 +9,12 @@
 </div>
 <h1 class="catalog-list-main-title">Регистрация</h1>
 <div class="login-block">
+    {% if form.non_field_errors %}
+        {% for error in form.non_field_errors%}
+            <p class="product-detail-reviews-error">*{{ error }}</p>
+        {% endfor %}
+    {% endif %}
+    
     <form method="POST">
         {% csrf_token %}
         <div class="form-group">

@@ -1,4 +1,5 @@
 from django import forms
+from django.contrib.auth import authenticate
 from .models import User
 
 # Класс-форма для авторизации пользователя
@@ -12,6 +13,19 @@ class LoginUserForm(forms.Form):
         'class': 'login-email-input', 
         'placeholder': 'Введите пароль',
     }))
+
+    # Метод валидации формы
+    def clean(self):
+        cleaned_data = super().clean()
+        email = cleaned_data.get('email')
+        password = cleaned_data.get('password')
+
+        if email and password:
+            user = authenticate(username=email, password=password)
+            if user is None:
+                raise forms.ValidationError('Неправильный email или пароль.')
+
+        return cleaned_data
 
 
 # Класс-форма для регистрации нового пользователя
@@ -35,3 +49,18 @@ class RegistrationUserForm(forms.Form):
         'class': 'login-email-input', 
         'placeholder': 'Введите пароль',
     }))
+
+    # Метод валидации формы
+    def clean(self):
+        cleaned_data = super().clean()
+        email = cleaned_data.get('email')
+        password = cleaned_data.get('password')
+        password2 = cleaned_data.get('password2')
+
+        if User.objects.filter(email=email).exists():
+                raise forms.ValidationError('Пользователь с таким email уже существует!')
+        
+        if password != password2:
+                raise forms.ValidationError('Введенные пароли отличаются!')
+
+        return cleaned_data
