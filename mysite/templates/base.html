@@ -125,9 +125,11 @@
     </div>
     {% if messages %}
         {% for message in messages %}
-            <div id="popup" class="popup">
-                <p>{{ message }}</p>
-            </div>
+            {% if message.tags %}
+                <div id="popup" class="popup_{{ message.tags }}">
+                    <p>{{ message }}</p>
+                </div>
+            {% endif %}
         {% endfor %}
     {% endif %}
     <script src="{% static 'js/slider.js' %}"></script>
