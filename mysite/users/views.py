@@ -1,3 +1,6 @@
-from django.shortcuts import render
+from django.views.generic.base import TemplateView
 
-# Create your views here.
+
+# Класс-представление авторизации пользователя
+class LoginUserView(TemplateView):
+    template_name = 'users/login.html'
