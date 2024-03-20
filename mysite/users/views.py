@@ -1,11 +1,10 @@
-from django.http import HttpResponseRedirect
 from django.contrib.auth import authenticate, login
 from django.urls import reverse_lazy
 from django.views.generic import FormView
+from django.views.generic.base import TemplateView
 from .forms import LoginUserForm, RegistrationUserForm
 from django.contrib import messages
 from .models import User
-from django import forms
 
 
 # Класс-представление авторизации пользователя
@@ -39,7 +38,7 @@ class LoginUserView(FormView):
         return context
 
 
-# # Класс-представление регистрации нового пользователя
+# Класс-представление регистрации нового пользователя
 class RegistrationUserView(FormView):
     form_class = RegistrationUserForm
     template_name = 'users/registration.html'
@@ -68,6 +67,17 @@ class RegistrationUserView(FormView):
 
     def get_context_data(self, **kwargs):
             context = super().get_context_data(**kwargs)
-            context['title'] = 'Авторизация'
+            context['title'] = 'Регистрация'
+
+            return context
+    
+
+# Класс-представление профиля пользователя
+class ProfileUserView(TemplateView):
+    template_name = 'users/profile.html'
+
+    def get_context_data(self, **kwargs):
+            context = super().get_context_data(**kwargs)
+            context['title'] = 'Мой профиль'
 
             return context
