@@ -1,10 +1,13 @@
 from django.contrib.auth import authenticate, login
 from django.urls import reverse_lazy
+from django.views import View
 from django.views.generic import FormView
 from django.views.generic.base import TemplateView
 from .forms import LoginUserForm, RegistrationUserForm
 from django.contrib import messages
 from .models import User
+from django.contrib.auth import logout
+from django.shortcuts import redirect
 
 
 # Класс-представление авторизации пользователя
@@ -81,3 +84,10 @@ class ProfileUserView(TemplateView):
             context['title'] = 'Мой профиль'
 
             return context
+    
+# # Класс-представление выхода из системы
+class LogoutUserView(View):
+    def get(self, request, *args, **kwargs):
+        logout(request)
+        messages.success(request, 'Вы успешно вышли из системы!')
+        return redirect(reverse_lazy('index'))
