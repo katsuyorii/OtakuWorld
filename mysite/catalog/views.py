@@ -5,7 +5,7 @@ from django.views.generic.base import View
 from .models import Category, Product, ProductProperty, Comment
 from django.views.generic.edit import FormMixin
 from django.shortcuts import render, redirect, get_object_or_404
-from .forms import AddNewCommentForm,EditCommentForm
+from .forms import AddNewCommentForm, EditCommentForm
 from django.contrib import messages
 from django.contrib.auth.models import AnonymousUser
 from django.db import transaction
@@ -117,16 +117,20 @@ class CommentDeleteView(View):
     
 
 # Класс-представление для редактирования комментария
-class CommentEditView(View):
-    def get(self, request, comment_id):
-        comment = get_object_or_404(Comment, pk=comment_id)
-        form = EditCommentForm(instance=comment)
-        context = {
-            'comment': comment,
-            'form': form,
-        }
+class CommentEditView(View, FormMixin):
+    form_class = EditCommentForm
 
-        return render(request, 'catalog/review-edit.html', context)
+    def get_initial(self):
+        initial = super().get_initial()
+        comment = get_object_or_404(Comment, pk=15)
+        
+        initial['review_text'] = comment.review_text
+        initial['grade'] = comment.grade
+
+        return initial
+
+    def get(self, request, comment_id):
+        return render(request, 'catalog/review-edit.html')
 
 
     
