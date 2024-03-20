@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+    <div class="catalog-list-main-row-link">
+        <a class="catalog-list-main-row-link-item" href="{% url 'index' %}">Главная</a>
+        <p>-</p>
+        <a class="catalog-list-main-row-link-item" href="{% url 'catalog' %}">Каталог</a>
+        <p>-</p>
+        <a class="catalog-list-main-row-link-item" href="#">ffff</a>
+        <p>-</p>
+        <a class="catalog-list-main-row-link-item" href="#">gjgjgj</a>
+        <p>-</p>
+        <a class="catalog-list-main-row-link-item" href="#">Редактирование отзыва</a>
+    </div>
+    <h2 class="product-detail-title">Редактирование отзыва</h2>
+    <br>
+    <br>
+
+    <form method="POST">
+        {% csrf_token %}
+        {{ form.review_text }}
+        {% for error in form.review_text.errors %}
+            <p class="product-detail-reviews-error">* {{ error }} </p>
+        {% endfor %}
+        <div class="product-detail-reviews-row">
+            <div class="product-detail-reviews-stars">
+                <p>Ваша оценка:</p>
+                <div class="rating-area">
+                    {{ form.grade }}
+                </div>
+            </div>
+            <button type="submit" class="product-detail-reviews-link">Отправить</a>
+        </div>
+        {% for error in form.grade.errors %}
+            <p class="product-detail-reviews-error">*{{ error }} </p>
+        {% endfor %}
+    </form>
+{% endblock content %}

@@ -4,8 +4,8 @@ from django.views.generic.list import ListView
 from django.views.generic.base import View
 from .models import Category, Product, ProductProperty, Comment
 from django.views.generic.edit import FormMixin
-from django.shortcuts import get_object_or_404
-from .forms import AddNewCommentForm
+from django.shortcuts import render, redirect, get_object_or_404
+from .forms import AddNewCommentForm,EditCommentForm
 from django.contrib import messages
 from django.contrib.auth.models import AnonymousUser
 from django.db import transaction
@@ -96,7 +96,7 @@ class ProductDetailView(ListView, FormMixin):
             return self.form_invalid(form)
         
     def form_valid(self, form):
-        messages.info(self.request, 'Ваш комментарий успешно добавлен!')
+        messages.success(self.request, 'Ваш комментарий успешно добавлен!')
         return super().form_valid(form)
     
     def form_invalid(self, form):
@@ -106,11 +106,27 @@ class ProductDetailView(ListView, FormMixin):
 
 class CommentDeleteView(View):
     @transaction.atomic()
-    def get(self, request, pk):
-        comm = get_object_or_404(Comment,pk=pk)
-        comm.delete()
-        comm.product.update_rating()
+    def get(self, request, comment_id):
+        comment = get_object_or_404(Comment, pk=comment_id)
+        comment.delete()
+        comment.product.update_rating()
 
-        return HttpResponseRedirect(reverse_lazy('product_detail', kwargs = {'category_slug': comm.product.category.slug, 'product_slug': comm.product.slug}))
+        messages.success(request, 'Ваш комментарий успешно удален!')
+
+        return HttpResponseRedirect(reverse_lazy('product_detail', kwargs = {'category_slug': comment.product.category.slug, 'product_slug': comment.product.slug}))
     
+
+# Класс-представление для редактирования комментария
+class CommentEditView(View):
+    def get(self, request, comment_id):
+        comment = get_object_or_404(Comment, pk=comment_id)
+        form = EditCommentForm(instance=comment)
+        context = {
+            'comment': comment,
+            'form': form,
+        }
+
+        return render(request, 'catalog/review-edit.html', context)
+
+
     
