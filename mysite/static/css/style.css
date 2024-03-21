@@ -499,6 +499,11 @@ body {
 	color: black;
 }
 
+.product-detail-stars-forever-link-red {
+	text-decoration: none;
+	color: red;
+}
+
 .product-detail-stars-row-link {
 	color: var(--text-link-color);
 	margin-top: 5px;

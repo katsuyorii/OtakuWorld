@@ -27,10 +27,17 @@
             <a class="product-detail-stars-row-link" href="#review">{{ count_reviews }} {{ count_reviews|review_declination }}</a>
         </div>
         <div class="product-detail-stars-forever">
-            <a id='forever' href="{% url 'add_favorites' product_id=product.base.pk %}">
-                <img src="{% static 'img/icons/icon-love.png' %}" alt="Forever">
-                <a id='forever' href="{% url 'add_favorites' product_id=product.base.pk %}" class="product-detail-stars-forever-link">В избранное</a>
-            </a>
+            {% if not is_favorites %}
+                <a id='forever' href="{% url 'add_favorites' product_id=product.base.pk %}">
+                    <img id='forever_id' src="{% static 'img/icons/icon-love.png' %}" alt="Forever">
+                    <a id='forever' href="{% url 'add_favorites' product_id=product.base.pk %}" class="product-detail-stars-forever-link">В избранное</a>
+                </a>
+            {% else %}
+                <a id='forever' href="{% url 'add_favorites' product_id=product.base.pk %}">
+                    <img id='forever_id' src="{% static 'img/icons/heart-red.png' %}" alt="Forever">
+                    <a id='forever' href="{% url 'add_favorites' product_id=product.base.pk %}" class="product-detail-stars-forever-link-red">В избранном</a>
+                </a>
+            {% endif %}
         </div>
     </div>
     <div class="product-detail-main">

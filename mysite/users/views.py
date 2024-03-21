@@ -155,7 +155,7 @@ class FavoritesUserView(ListView):
     context_object_name = 'favorites'
 
     def get_queryset(self):
-        queryset = Favorites.objects.filter(user=self.request.user).select_related('product')
+        queryset = Favorites.objects.filter(user=self.request.user).select_related('product__category')
 
         return queryset
 

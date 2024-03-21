@@ -65,6 +65,7 @@ class ProductDetailView(ListView, FormMixin):
         context = super().get_context_data(**kwargs)
         context['title'] = self.object_list['base'].name
         context['count_reviews'] = Comment.objects.filter(product__slug = self.kwargs['product_slug']).count()
+        context['is_favorites'] = Favorites.objects.filter(user=self.request.user, product__slug = self.kwargs['product_slug']).exists()
 
         # Проверка, если пользователь не авторизирован, то у него нет доступа к форме создания комментария
         if isinstance(self.request.user, AnonymousUser):
@@ -161,7 +162,6 @@ class FavoritesAddUserView(View):
             new_favorite = Favorites(product=product, user=request.user)
             new_favorite.save()
 
-            messages.success(request, 'Товар добавлен в избранное!')
             return redirect(reverse_lazy('product_detail', kwargs = {'category_slug': product.category.slug, 'product_slug': product.slug}))
         else:
             messages.error(request, 'Товар уже добавлен в избранное!')
