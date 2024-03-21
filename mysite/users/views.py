@@ -1,7 +1,8 @@
 from django.contrib.auth import authenticate, login
+from django.db.models.query import QuerySet
 from django.urls import reverse_lazy
 from django.views import View
-from django.views.generic import FormView, UpdateView
+from django.views.generic import FormView, UpdateView, ListView
 from django.views.generic.base import TemplateView
 from .forms import LoginUserForm, RegistrationUserForm, EditInfoUserForm, ChangePasswordUserForm
 from django.contrib import messages
@@ -9,6 +10,7 @@ from .models import User
 from django.contrib.auth import logout
 from django.shortcuts import redirect
 from django.contrib.auth.views import PasswordChangeView
+from catalog.models import Favorites
 
 
 # Класс-представление авторизации пользователя
@@ -142,5 +144,23 @@ class ChangePasswordUserView(PasswordChangeView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['title'] = 'Смена пароля'
+
+        return context
+    
+
+# Класс-представление для избранных товаров
+class FavoritesUserView(ListView):
+    model = Favorites
+    template_name = 'users/favorites.html'
+    context_object_name = 'favorites'
+
+    def get_queryset(self):
+        queryset = Favorites.objects.filter(user=self.request.user).select_related('product')
+
+        return queryset
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = 'Избранное'
 
         return context

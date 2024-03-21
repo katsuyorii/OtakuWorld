@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import LoginUserView, RegistrationUserView, ProfileUserView, LogoutUserView, EditInfoUserView, ChangePasswordUserView
+from .views import LoginUserView, RegistrationUserView, ProfileUserView, LogoutUserView, EditInfoUserView, ChangePasswordUserView, FavoritesUserView
 from django.contrib.auth.decorators import login_required
 
 urlpatterns = [
@@ -9,4 +9,5 @@ urlpatterns = [
     path('logout/', login_required(LogoutUserView.as_view()), name='logout'),
     path('profile-edit/', login_required(EditInfoUserView.as_view()), name='profile_edit'),
     path('change-password/', login_required(ChangePasswordUserView.as_view()), name='change_password'),
+    path('favorites/', login_required(FavoritesUserView.as_view()), name='favorites'),
 ]

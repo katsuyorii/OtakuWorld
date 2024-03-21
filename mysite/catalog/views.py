@@ -1,4 +1,3 @@
-from django.http import HttpResponseRedirect
 from django.urls import reverse_lazy
 from django.views.generic.list import ListView
 from django.views.generic.base import View

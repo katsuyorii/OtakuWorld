@@ -1,4 +1,4 @@
-from django.db import models, transaction
+from django.db import models
 from django.urls import reverse
 from pytils.translit import slugify
 from users.models import User
@@ -172,3 +172,16 @@ class Comment(models.Model):
 
     def __str__(self):
         return f'{self.product.name} | {self.user.username}'
+    
+
+# Класс-модель для избранных товаров
+class Favorites(models.Model):
+    product = models.ForeignKey(verbose_name='Продукт', to=Product, on_delete=models.CASCADE)
+    user = models.ForeignKey(verbose_name='Пользователь', to=User, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return f'{self.user.username} | {self.product.name}'
+
+    class Meta:
+        verbose_name = 'Избранное пользователя'
+        verbose_name_plural = 'Избранное пользователей'
