@@ -9,6 +9,7 @@ from .forms import AddNewCommentForm, EditCommentForm
 from django.contrib import messages
 from django.contrib.auth.models import AnonymousUser
 from django.db import transaction
+from .models import Favorites
 
 
 # Класс-представления каталога категорий
@@ -150,4 +151,18 @@ class CommentEditView(UpdateView):
     def get_success_url(self):
         return reverse_lazy('product_detail', kwargs = {'category_slug': self.object.product.category.slug, 'product_slug': self.object.product.slug})
 
-    
+
+# Класс представление для добавления в избранное
+class FavoritesAddUserView(View):
+    def get(self, request, *args, **kwargs):
+        product = get_object_or_404(Product, pk=self.kwargs['product_id'])
+
+        if not Favorites.objects.filter(product=product):
+            new_favorite = Favorites(product=product, user=request.user)
+            new_favorite.save()
+
+            messages.success(request, 'Товар добавлен в избранное!')
+            return redirect(reverse_lazy('product_detail', kwargs = {'category_slug': product.category.slug, 'product_slug': product.slug}))
+        else:
+            messages.error(request, 'Товар уже добавлен в избранное!')
+            return redirect(reverse_lazy('product_detail', kwargs = {'category_slug': product.category.slug, 'product_slug': product.slug}))
