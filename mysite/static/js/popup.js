@@ -1,3 +1,3 @@
 setTimeout(function() {
     popup.style.display = "none";
-  }, 7000);
+  }, 5000);

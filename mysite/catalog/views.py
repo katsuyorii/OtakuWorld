@@ -3,8 +3,9 @@ from django.urls import reverse_lazy
 from django.views.generic.list import ListView
 from django.views.generic.base import View
 from .models import Category, Product, ProductProperty, Comment
+from django.views.generic import UpdateView
 from django.views.generic.edit import FormMixin
-from django.shortcuts import render, redirect, get_object_or_404
+from django.shortcuts import get_object_or_404, redirect
 from .forms import AddNewCommentForm, EditCommentForm
 from django.contrib import messages
 from django.contrib.auth.models import AnonymousUser
@@ -113,24 +114,34 @@ class CommentDeleteView(View):
 
         messages.success(request, 'Ваш комментарий успешно удален!')
 
-        return HttpResponseRedirect(reverse_lazy('product_detail', kwargs = {'category_slug': comment.product.category.slug, 'product_slug': comment.product.slug}))
+        return redirect(reverse_lazy('product_detail', kwargs = {'category_slug': comment.product.category.slug, 'product_slug': comment.product.slug}))
     
 
 # Класс-представление для редактирования комментария
-class CommentEditView(View, FormMixin):
+class CommentEditView(UpdateView):
+    model = Comment
+    template_name = 'catalog/review-edit.html'
+    pk_url_kwarg = 'comment_id'
     form_class = EditCommentForm
+    context_object_name = 'comm'
 
-    def get_initial(self):
-        initial = super().get_initial()
-        comment = get_object_or_404(Comment, pk=15)
-        
-        initial['review_text'] = comment.review_text
-        initial['grade'] = comment.grade
+    def get_queryset(self):
+        queryset = Comment.objects.filter(pk=self.kwargs['comment_id']).select_related('product__category')
 
-        return initial
+        return queryset
 
-    def get(self, request, comment_id):
-        return render(request, 'catalog/review-edit.html')
-
+    @transaction.atomic()
+    def form_valid(self, form):
+        self.object = form.save()
+        self.object.product.update_rating()
+        messages.success(self.request, 'Ваш комментарий успешно редактирован!')
+        return super().form_valid(form)
+    
+    def form_invalid(self, form):
+        messages.error(self.request, 'Ошибка при заполнении формы!')
+        return super().form_invalid(form)
+    
+    def get_success_url(self):
+        return reverse_lazy('product_detail', kwargs = {'category_slug': self.object.product.category.slug, 'product_slug': self.object.product.slug})
 
     
