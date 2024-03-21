@@ -63,7 +63,7 @@ class ProductDetailView(ListView, FormMixin):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['title'] = 'Каталог товаров'
+        context['title'] = self.object_list['base'].name
         context['count_reviews'] = Comment.objects.filter(product__slug = self.kwargs['product_slug']).count()
 
         # Проверка, если пользователь не авторизирован, то у него нет доступа к форме создания комментария
@@ -105,6 +105,7 @@ class ProductDetailView(ListView, FormMixin):
         return super().form_invalid(form)
 
 
+# Класс-представление для удаления комментария
 class CommentDeleteView(View):
     @transaction.atomic()
     def get(self, request, comment_id):
@@ -141,6 +142,12 @@ class CommentEditView(UpdateView):
         messages.error(self.request, 'Ошибка при заполнении формы!')
         return super().form_invalid(form)
     
+    def get_context_data(self, **kwargs):
+            context = super().get_context_data(**kwargs)
+            context['title'] = 'Редактирование комментария'
+
+            return context
+
     def get_success_url(self):
         return reverse_lazy('product_detail', kwargs = {'category_slug': self.object.product.category.slug, 'product_slug': self.object.product.slug})
 
