@@ -1,5 +1,5 @@
 from django.contrib.auth import authenticate, login
-from django.db.models.query import QuerySet
+from django.shortcuts import get_object_or_404
 from django.urls import reverse_lazy
 from django.views import View
 from django.views.generic import FormView, UpdateView, ListView
@@ -164,3 +164,13 @@ class FavoritesUserView(ListView):
         context['title'] = 'Избранное'
 
         return context
+    
+
+# Класс-представление для удаления из избранных
+class FavoritesDeleteUserView(View):
+    def get(self, request, *args, **kwargs):
+        favor = get_object_or_404(Favorites, pk=self.kwargs['favorites_id'])
+        favor.delete()
+
+        messages.success(request, 'Товар удален!')
+        return redirect(reverse_lazy('favorites'))
