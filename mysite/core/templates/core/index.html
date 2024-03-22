@@ -5,20 +5,20 @@
 <div class="main-banner-row">
     <div class="main-banner-row-slider">
         <div class="slider">
-            {% for img in products.slider_images %}
-                <img src="{{ img.icon_slider.url }}" alt="Изображение слайдера" class="slide">
+            {% for slider_image in slider_images %}
+                <img src="{{ slider_image.icon_slider.url }}" alt="Изображение слайдера" class="slide">
             {% endfor %}
         </div>
     </div>
     <div class="main-banner-row-new">
-        <img class="main-banner-row-new-img" src="{{ products.news_product_image.icon_new_product.url }}" alt="New">
+        <img class="main-banner-row-new-img" src="{{ new_product_image.icon_new_product.url }}" alt="Новинка">
     </div>
 </div>
 
 <div class="main-roww">
-    <a href="#" class="main-hits-title">Хиты продаж</a>
+    <a class="main-hits-title">Хиты продаж</a>
     <div class="main-hits-row">
-        {% for hit in products.hits %}
+        {% for hit in hits %}
             <div class="main-hits-row-card">
                 <a href="{{ hit.get_absolute_url }}">
                     <img class="main-hits-row-card-img" src="{{ hit.icon_image.url }}" alt="Logo Card">
@@ -40,9 +40,9 @@
 </div>
 
 <div class="main-roww">
-    <a href="#" class="main-hits-title">Манга</a>
+    <a class="main-hits-title">Манга</a>
     <div class="main-hits-row">
-        {% for manga in products.mangas %}
+        {% for manga in manga_list %}
             <div class="main-hits-row-card">
                 <a href="{{ manga.get_absolute_url }}">
                     <img class="main-hits-row-card-img" src="{{ manga.icon_image.url }}" alt="Logo Card">
