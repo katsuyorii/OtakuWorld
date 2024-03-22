@@ -1,3 +1,4 @@
+from django.http import JsonResponse
 from django.urls import reverse_lazy
 from django.views.generic.list import ListView
 from django.views.generic.base import View
@@ -65,13 +66,14 @@ class ProductDetailView(ListView, FormMixin):
         context = super().get_context_data(**kwargs)
         context['title'] = self.object_list['base'].name
         context['count_reviews'] = Comment.objects.filter(product__slug = self.kwargs['product_slug']).count()
-        context['is_favorites'] = Favorites.objects.filter(user=self.request.user, product__slug = self.kwargs['product_slug']).exists()
 
-        # Проверка, если пользователь не авторизирован, то у него нет доступа к форме создания комментария
+        # Проверка, если пользователь не авторизирован, то у него нет доступа к форме создания комментария и добавления в избранное
         if isinstance(self.request.user, AnonymousUser):
             context['user_comm'] = True
+            context['is_favorites'] = False
         else:
             context['user_comm'] = Comment.objects.filter(user=self.request.user, product__slug=self.kwargs['product_slug']).exists()
+            context['is_favorites'] = Favorites.objects.filter(user=self.request.user, product__slug = self.kwargs['product_slug']).exists()
 
         return context
     
@@ -158,11 +160,17 @@ class FavoritesAddUserView(View):
     def get(self, request, *args, **kwargs):
         product = get_object_or_404(Product, pk=self.kwargs['product_id'])
 
-        if not Favorites.objects.filter(product=product):
+        if not Favorites.objects.filter(product=product, user=request.user):
             new_favorite = Favorites(product=product, user=request.user)
             new_favorite.save()
-
-            return redirect(reverse_lazy('product_detail', kwargs = {'category_slug': product.category.slug, 'product_slug': product.slug}))
+            button_text = 'В избранном'
+            button_color = 'red'
+            new_img = '/static/img/icons/heart-red.png'
         else:
-            messages.error(request, 'Товар уже добавлен в избранное!')
-            return redirect(reverse_lazy('product_detail', kwargs = {'category_slug': product.category.slug, 'product_slug': product.slug}))
+            selected_favorite = Favorites.objects.filter(product=product, user=request.user)
+            selected_favorite.delete()
+            button_text = 'В избранное'
+            button_color = 'black'
+            new_img = '/static/img/icons/icon-love.png'
+
+        return JsonResponse({'button_text': button_text, 'button_color': button_color, 'new_img': new_img})
