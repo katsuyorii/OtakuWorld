@@ -8,7 +8,7 @@ from django.http import HttpResponseRedirect, JsonResponse
 from django.urls import reverse_lazy
 
 from django.db import transaction
-from .models import Category, Product, ProductProperty, Comment, Favorites
+from .models import Category, Product, ProductProperty, Comment, Favorites, Genre, Source
 
 from .forms import AddNewCommentForm, EditCommentForm
 
@@ -46,6 +46,8 @@ class ProductListView(ListView):
         context = super().get_context_data(**kwargs)
         context['title'] = 'Каталог товаров'
         context['selected_category'] = get_object_or_404(Category, slug=self.kwargs['category_slug'])
+        context['genres'] = Genre.objects.all()
+        context['sources'] = Source.objects.all()
 
         return context
     

@@ -19,25 +19,21 @@
                 <input class="product-list-main-filters-price" type="text" name="" id="">
                 <input class="product-list-main-filters-price" type="text" name="" id="">
             </div>
-            <p class="product-list-main-filters-title">Источник</p>
-            <div class="product-list-main-filters-checkbox-row">
-                <input class="product-list-main-filters-checkbox" type="checkbox" name="" id="">
-                <p class="product-list-main-filters-checkbox-text">Белая магия VS Черная магия</p>
-            </div>
-            <div class="product-list-main-filters-checkbox-row">
-                <input class="product-list-main-filters-checkbox" type="checkbox" name="" id="">
-                <p class="product-list-main-filters-checkbox-text">Белая магия VS Черная магия</p>
-            </div>
+            <p class="product-list-main-filters-title">Жанры</p>
+            {% for genre in genres %}
+                <div class="product-list-main-filters-checkbox-row">
+                    <input class="product-list-main-filters-checkbox" type="checkbox" name="" id="">
+                    <p class="product-list-main-filters-checkbox-text">{{ genre.name }}</p>
+                </div>
+            {% endfor %}
 
-            <p class="product-list-main-filters-title">Источник</p>
-            <div class="product-list-main-filters-checkbox-row">
-                <input class="product-list-main-filters-checkbox" type="checkbox" name="" id="">
-                <p class="product-list-main-filters-checkbox-text">Белая магия VS Черная магия</p>
-            </div>
-            <div class="product-list-main-filters-checkbox-row">
-                <input class="product-list-main-filters-checkbox" type="checkbox" name="" id="">
-                <p class="product-list-main-filters-checkbox-text">Белая магия VS Черная магия</p>
-            </div>
+            <p class="product-list-main-filters-title">Источники</p>
+            {% for source in sources %}
+                <div class="product-list-main-filters-checkbox-row">
+                    <input class="product-list-main-filters-checkbox" type="checkbox" name="" id="">
+                    <p class="product-list-main-filters-checkbox-text">{{ source.name }}</p>
+                </div>
+            {% endfor %}
         </div>
         <div class="product-list-main-row-products">
             <div class="product-list-main-row-products-grid">
