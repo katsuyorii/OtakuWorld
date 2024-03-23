@@ -1,16 +1,17 @@
-from django.contrib.auth import authenticate, login
-from django.shortcuts import get_object_or_404
-from django.urls import reverse_lazy
 from django.views import View
 from django.views.generic import FormView, UpdateView, ListView
 from django.views.generic.base import TemplateView
 from .forms import LoginUserForm, RegistrationUserForm, EditInfoUserForm, ChangePasswordUserForm
-from django.contrib import messages
-from .models import User
-from django.contrib.auth import logout
-from django.shortcuts import redirect
 from django.contrib.auth.views import PasswordChangeView
+
+from django.contrib import messages
+from django.contrib.auth import authenticate, login, logout
+
 from catalog.models import Favorites
+from .models import User
+
+from django.shortcuts import redirect, get_object_or_404
+from django.urls import reverse_lazy
 
 
 # Класс-представление авторизации пользователя
@@ -22,16 +23,12 @@ class LoginUserView(FormView):
         return reverse_lazy('index')
 
     def form_valid(self, form): 
-        email = form.cleaned_data['email']
-        password = form.cleaned_data['password']
-        user = authenticate(self.request, username=email, password=password)
+        user = form.cleaned_data['user']
+        
+        login(self.request, user)
 
-        if user is not None:
-            login(self.request, user)
-            messages.success(self.request, 'Вы успешно вошли в систему!')
-            return super().form_valid(form)
-        else:
-            return self.form_invalid(form)
+        messages.success(self.request, 'Вы успешно вошли в систему!')
+        return super().form_valid(form)
         
     def form_invalid(self, form):
         messages.error(self.request, 'Ошибка авторизации!')
@@ -50,22 +47,17 @@ class RegistrationUserView(FormView):
     template_name = 'users/registration.html'
 
     def get_success_url(self):
-        return reverse_lazy('index')
+        return reverse_lazy('login')
 
     def form_valid(self, form): 
         username = form.cleaned_data['username']
         email = form.cleaned_data['email']
-        password = form.cleaned_data['password']
-        password2 = form.cleaned_data['password2']
+        password1 = form.cleaned_data['password1']
 
-        if password == password2 and User.objects.filter(email=email).exists() == False:
-            user = User.objects.create_user(username=username, email=email, password=password)
-            login(self.request, user)
+        User.objects.create_user(username=username, email=email, password=password1)
         
-            messages.success(self.request, 'Вы зарегестрировались в системе!')
-            return super().form_valid(form)
-        else:
-            return self.form_invalid(form)
+        messages.success(self.request, 'Вы зарегестрировались в системе!')
+        return super().form_valid(form)
             
     def form_invalid(self, form):
         messages.error(self.request, 'Ошибка регистрации!')

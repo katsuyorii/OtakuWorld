@@ -1,9 +1,13 @@
-from django import forms
-from django.contrib.auth import authenticate
-from .models import User
 from phonenumber_field.formfields import PhoneNumberField
 from phonenumber_field.phonenumber import to_python
+
+from django import forms
 from django.contrib.auth.forms import PasswordChangeForm
+
+from .models import User
+from django.contrib.auth import authenticate
+
+from django.contrib.auth.password_validation import validate_password
 
 # Класс-форма для авторизации пользователя
 class LoginUserForm(forms.Form):
@@ -19,16 +23,15 @@ class LoginUserForm(forms.Form):
 
     # Метод валидации формы
     def clean(self):
-        cleaned_data = super().clean()
-        email = cleaned_data.get('email')
-        password = cleaned_data.get('password')
+        email = self.cleaned_data.get('email')
+        password = self.cleaned_data.get('password')
 
-        if email and password:
-            user = authenticate(username=email, password=password)
-            if user is None:
-                raise forms.ValidationError('Неправильный email или пароль.')
-
-        return cleaned_data
+        user = authenticate(username=email, password=password)
+        if user is None:
+            raise forms.ValidationError('Неправильный email или пароль.')
+        
+        self.cleaned_data['user'] = user
+        return self.cleaned_data
 
 
 # Класс-форма для регистрации нового пользователя
@@ -43,30 +46,32 @@ class RegistrationUserForm(forms.Form):
         'placeholder': 'Введите email',
     }))
 
-    password = forms.CharField(widget=forms.PasswordInput(attrs= {
+    password1 = forms.CharField(widget=forms.PasswordInput(attrs= {
         'class': 'login-email-input', 
         'placeholder': 'Введите пароль',
-    }))
+    }), validators=[validate_password])
     
     password2 = forms.CharField(widget=forms.PasswordInput(attrs= {
         'class': 'login-email-input', 
         'placeholder': 'Введите пароль',
-    }))
+    }), validators=[validate_password])
+    
+    def clean_password2(self):
+        password1 = self.cleaned_data.get("password1")
+        password2 = self.cleaned_data.get("password2")
 
-    # Метод валидации формы
-    def clean(self):
-        cleaned_data = super().clean()
-        email = cleaned_data.get('email')
-        password = cleaned_data.get('password')
-        password2 = cleaned_data.get('password2')
+        if password1 and password2 and password1 != password2:
+            raise forms.ValidationError('Введенные пароли отличаются!')
+        
+        return password2
+    
+    def clean_email(self):
+        email = self.cleaned_data.get('email')
 
         if User.objects.filter(email=email).exists():
-                raise forms.ValidationError('Пользователь с таким email уже существует!')
+            raise forms.ValidationError('Пользователь с таким email уже существует!')
         
-        if password != password2:
-                raise forms.ValidationError('Введенные пароли отличаются!')
-
-        return cleaned_data
+        return email
     
 
 # Класс-форма для изменения данных пользователя
@@ -88,19 +93,11 @@ class EditInfoUserForm(forms.ModelForm):
     class Meta:
         model = User
         fields = ['username', 'email', 'phone_number', 'image']
+    
+    def clean_phone_number(self):
+        phone_number = self.cleaned_data.get('phone_number')
 
-    def clean(self):
-        cleaned_data = super().clean()
-        email = cleaned_data.get('email')
-        phone_number = cleaned_data.get('phone_number')
-        
-        users = User.objects.filter(email=email)
-        phone = to_python(phone_number)
-
-        if not phone:
-            raise forms.ValidationError("Некорректный формат номера телефона")
-
-        return cleaned_data
+        return to_python(phone_number)
     
 
 # Класс-форма для изменения пароля пользователя

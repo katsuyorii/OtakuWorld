@@ -15,8 +15,15 @@
     {% include "profile-menu.html" %}
     
     <div class="profile-row-info">
-        {% if form.non_field_errors %}
-            {% for error in form.non_field_errors%}
+
+        {% if form.phone_number.errors %}
+            {% for error in form.phone_number.errors %}
+                <p class="product-detail-reviews-error">*{{ error }}</p>
+            {% endfor %}
+        {% endif %}
+
+        {% if form.email.errors %}
+            {% for error in form.email.errors %}
                 <p class="product-detail-reviews-error">*{{ error }}</p>
             {% endfor %}
         {% endif %}
