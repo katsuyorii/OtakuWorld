@@ -12,7 +12,7 @@
         {% for category in categories %}
         <div class="catalog-list-main-categories-item">
             <a href="{{ category.get_absolute_url }}">
-                <img class="catalog-list-main-categories-item-img" src="{{ category.icon_image.url }}" alt="Manga">
+                <img class="catalog-list-main-categories-item-img" src="{{ category.icon_image.url }}" alt="{{ category.name }}">
             </a>
             <a class="catalog-list-main-categories-item-text" href="{{ category.get_absolute_url }}">{{ category.name }}</a>
         </div>

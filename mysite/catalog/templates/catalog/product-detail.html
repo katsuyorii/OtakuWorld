@@ -9,18 +9,18 @@
         <p>-</p>
         <a class="catalog-list-main-row-link-item" href="{% url 'catalog' %}">Каталог</a>
         <p>-</p>
-        <a class="catalog-list-main-row-link-item" href="{{ product.base.category.get_absolute_url }}">{{ product.base.category.name }}</a>
+        <a class="catalog-list-main-row-link-item" href="{{ product.category.get_absolute_url }}">{{ product.category.name }}</a>
         <p>-</p>
-        <a class="catalog-list-main-row-link-item" href="{{ product.base.get_absolute_url }}">{{ product.base.name }}</a>
+        <a class="catalog-list-main-row-link-item" href="{{ product.get_absolute_url }}">{{ product.name }}</a>
     </div>
-    <h2 class="product-detail-title">{{ product.base.name }}</h2>
+    <h2 class="product-detail-title">{{ product.name }}</h2>
     <div class="product-detail-stars">
         <div class="product-detail-stars-row">
             <div class="rating-result">
-                {% for _ in product.base.rating|range_values_star %}
+                {% for _ in product.rating|range_values_star %}
                     <span class="active"></span>
                 {% endfor %}
-                {% for _ in product.base.rating|range_values_no_star %}
+                {% for _ in product.rating|range_values_no_star %}
                     <span></span>
                 {% endfor %}
             </div>
@@ -34,14 +34,14 @@
                 </a>
             {% else %}
                 {% if not is_favorites %}
-                    <a id='forever' href="{% url 'add_favorites' product_id=product.base.pk %}">
+                    <a id='forever' href="{% url 'add_favorites' product_id=product.pk %}">
                         <img id='forever_id' src="{% static 'img/icons/icon-love.png' %}" alt="Forever">
-                        <a id='forever' href="{% url 'add_favorites' product_id=product.base.pk %}" class="product-detail-stars-forever-link">В избранное</a>
+                        <a id='forever' href="{% url 'add_favorites' product_id=product.pk %}" class="product-detail-stars-forever-link">В избранное</a>
                     </a>
                 {% else %}
-                    <a id='forever' href="{% url 'add_favorites' product_id=product.base.pk %}">
+                    <a id='forever' href="{% url 'add_favorites' product_id=product.pk %}">
                         <img id='forever_id' src="{% static 'img/icons/heart-red.png' %}" alt="Forever">
-                        <a id='forever' href="{% url 'add_favorites' product_id=product.base.pk %}" class="product-detail-stars-forever-link-red">В избранном</a>
+                        <a id='forever' href="{% url 'add_favorites' product_id=product.pk %}" class="product-detail-stars-forever-link-red">В избранном</a>
                     </a>
                 {% endif %}
             {% endif %}
@@ -49,28 +49,28 @@
     </div>
     <div class="product-detail-main">
         <div class="product-detail-main-left">
-            <img class="product-detail-main-left-img" src="{{ product.base.icon_image.url }}" alt="Poster">
+            <img class="product-detail-main-left-img" src="{{ product.icon_image.url }}" alt="Poster">
             <div class="product-detail-main-left-text">
-                    <h2 class="product-detail-main-left-text-engtitle">{{ product.base.name_eng }}</h2>
-                    <p class="product-detail-main-left-text-p">Категория: <a class="product-detail-main-left-text-link" href="{{ product.base.category.get_absolute_url }}">{{ product.base.category.name }}</a></p>
-                    <p class="product-detail-main-left-text-p">Источник: <a class="product-detail-main-left-text-link" href="#">{{ product.base.source.name }}</a></p>
-                    {% for property in product.characters %}
+                    <h2 class="product-detail-main-left-text-engtitle">{{ product.name_eng }}</h2>
+                    <p class="product-detail-main-left-text-p">Категория: <a class="product-detail-main-left-text-link" href="{{ product.category.get_absolute_url }}">{{ product.category.name }}</a></p>
+                    <p class="product-detail-main-left-text-p">Источник: <a class="product-detail-main-left-text-link" href="#">{{ product.source.name }}</a></p>
+                    {% for property in proretries %}
                         <p class="product-detail-main-left-text-p">{{ property.property.name }}: {% if property.value_string %} {{ property.value_string }} {% elif property.value_integer %} {{ property.value_integer }} {% else %} {% for genre in property.value_genres.all %} <a class="product-detail-main-left-text-link" href="#">{{ genre.name }}</a> {% if not forloop.last %},{% endif %} {% endfor %} {% endif %}</p>
                     {% endfor %}
             </div>
         </div>
         <div class="product-detail-main-right">
-            {% if product.base.discount %}
+            {% if product.discount %}
                 <p class="product-detail-main-right-orig">Оригинальная цена</p>
-                <p class="product-detail-main-right-orig-price">{{ product.base.price }} ₽</p>
+                <p class="product-detail-main-right-orig-price">{{ product.price }} ₽</p>
                 <p class="product-detail-main-right-orig">Специальная цена</p>
-                <p class="product-detail-main-right-spec-price">{{product.base.price_discount }} ₽</p>
+                <p class="product-detail-main-right-spec-price">{{product.price_discount }} ₽</p>
             {% else %}
                 <p class="product-detail-main-right-orig">Оригинальная цена</p>
-                <p class="product-detail-main-right-spec-price">{{ product.base.price }} ₽</p>
+                <p class="product-detail-main-right-spec-price">{{ product.price }} ₽</p>
             {% endif %}
             <a href="#" class="product-detail-main-right-btn">В корзину</a>
-            {% if product.base.category.slug == 'odezhda' %}
+            {% if product.category.slug == 'odezhda' %}
             <div class="product-detail-clothers-size">
                 <div class="product-detail-clothers-size-top">
                     <p class="product-detail-clothers-size-pole">Пол</p>
@@ -98,12 +98,12 @@
     </div>
     <div class="product-detail-desc">
         <h2 class="product-detail-desc-h">Описание</h2>
-        <p class="product-detail-desc-text">{{ product.base.description }}</p>
+        <p class="product-detail-desc-text">{{ product.description }}</p>
     </div>
     <div class="product-detail-reviews">
         <h2 id="review" class="product-detail-reviews-h">Отзывы</h2>
         {% if user.is_authenticated %}
-            {% if not user_comm %}
+            {% if not is_user_comment %}
                 <form method="POST">
                     {% csrf_token %}
                     <textarea class="product-detail-reviews-textarea" placeholder="Оставьте комментарий..." name="review_text" id="id_review_text"></textarea>
@@ -136,7 +136,7 @@
                 <div class="product-detail-reviews-line"></div>
             {% endif %}
         {% endif %}
-        {% for comment in product.comments %}
+        {% for comment in comments %}
             <div class="product-detail-reviews-item">
                 <span class="circle-img-product">
                     {% if comment.user.image %}

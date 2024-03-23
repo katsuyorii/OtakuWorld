@@ -7,9 +7,9 @@
         <p>-</p>
         <a class="catalog-list-main-row-link-item" href="{% url 'catalog' %}">Каталог</a>
         <p>-</p>
-        <a class="catalog-list-main-row-link-item" href="{{ category.get_absolute_url }}">{{ category.name }}</a>
+        <a class="catalog-list-main-row-link-item" href="{{ selected_category.get_absolute_url }}">{{ selected_category.name }}</a>
     </div>
-    <h1 class="catalog-list-main-title">{{ category.name }}</h1>
+    <h1 class="catalog-list-main-title">{{ selected_category.name }}</h1>
 
     <div class="product-list-main-row">
         <div class="product-list-main-row-filters">
