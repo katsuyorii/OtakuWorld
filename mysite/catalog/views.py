@@ -177,3 +177,15 @@ class FavoritesAddUserView(View):
             new_img = '/static/img/icons/icon-love.png'
 
         return JsonResponse({'button_text': button_text, 'button_color': button_color, 'new_img': new_img})
+    
+
+# Класс представление для динамической фильтрации
+class DynamicFiltersProducts(View):
+    def get(self, request, *args, **kwargs):
+        selected_filters = request.GET
+        
+        filtered_products = Product.objects.filter(source__name=selected_filters)
+
+        json_filtered_products = list(filtered_products)
+
+        return JsonResponse({'products': json_filtered_products})
